@@ -1,0 +1,39 @@
+.constructor__container {
+	max-height: 100vh;
+}
+
+.constructor-palette__container {
+	max-height: 100vh;
+	overflow: auto;
+  padding-top: 1rem;
+}
+
+.constructor-zone__container,
+.constructor-propertys__container {
+	padding: 1rem;
+}
+
+.variant-element__container {
+	padding: 1rem;
+	border: 4px dashed hsla(0, 0%, 85%, 1);
+	margin-bottom: 1rem;
+	/*opacity: .5;*/
+	transition: all .2s;
+}
+
+.variant-element__container:hover {
+	opacity: 1;
+	background: hsla(0, 0%, 98%, 1);
+	cursor: move;
+}
+
+.constructor-drop-zone__container {
+	border: 4px dashed hsla(0, 0%, 85%, 1);
+	padding: 1rem;
+	min-height: 4rem;
+}
+
+.constructor-zone__container .row.col-lg-12 {
+	margin: 0;
+  margin-bottom: 1rem;
+}
