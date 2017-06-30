@@ -5,7 +5,7 @@ export default class VariantElementImg extends Component {
 		return (
 			<div className="variant-element__container">
 				<div className="variant-element-img">
-					<img src={'http://placehold.it/400x20&text=slide1'} />
+					<img src={'/'} />img!
 				</div>
 			</div>
 		)

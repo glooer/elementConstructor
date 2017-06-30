@@ -1,32 +1,89 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Dragula1 from '../node_modules/dragula/dist/dragula.css';
+import Dragula from 'react-dragula';
 import ConstructorPalette from './components/ConstructorPalette/ConstructorPalette'
 import ConstructorZone from './components/ConstructorZone/ConstructorZone'
-import ConstructorProperty from './components/ConstructorZone/ConstructorZone'
+import ConstructorProperty from './components/ConstructorProperty/ConstructorProperty'
 
 
 class App extends Component {
+	constructor(args) {
+		super(args);
+		this.state = {
+			dragula: {
+				container: [],
+				options: {
+					removeOnSpill: true,
+					copy: (el, source) => {
+						return source === this.state.dragula.container[0];
+					},
+					accepts: (el, target) => {
+						return target !== this.state.dragula.container[0]
+					},
+				}
+			}
+		}
+
+
+		this.dragulaDecorator = this.dragulaDecorator.bind(this)
+		this.initDragula();
+	}
+
   render() {
     return (
-      // <div className="App">
-      //   <div className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //     <h2>Welcome to React</h2>
-      //   </div>
-      //   <p className="App-intro">
-      //     To get started, edit <code>src/App.js</code> and save to reload.
-      //   </p>
-      // </div>
 			<div className="container-fluid">
 				<div className="row constructor__container">
-					<ConstructorPalette />
-					<ConstructorZone />
+					<ConstructorPalette dragula={this.dragulaDecorator} />
+					<ConstructorZone dragula={this.dragulaDecorator} />
 					<ConstructorProperty />
 				</div>
 			</div>
     );
   }
+
+	_onDrop(el, target, source, sibling) {
+		
+	}
+
+	_onCancel(el) {
+		// this.setState({orders: this.ordersCopy})
+	}
+
+	initDragula() {
+		var drake = Dragula(this.state.dragula.container, this.state.dragula.options);
+
+		drake.on('drop', (el) => {
+			if (el.children[0].className !== 'variant-element-container') {
+				return;
+			}
+
+			this.dragulaPushContainer(el)
+		});
+
+		drake.on("drop", function(el, target, source, sibling) {
+			this._onDrop(el, target, source, sibling)
+			drake.cancel(true)
+		}.bind(this))
+	}
+
+	dragulaPushContainer(container) {
+		if (container) {
+			this.setState((prevState) => {
+				let dragula = prevState.dragula
+				dragula.container.push(container);
+				return {
+					dragula: dragula
+				}
+			})
+		}
+	}
+
+	dragulaDecorator(componentBackingInstance) {
+		this.dragulaPushContainer(componentBackingInstance)
+	}
+
 }
 
 export default App;
