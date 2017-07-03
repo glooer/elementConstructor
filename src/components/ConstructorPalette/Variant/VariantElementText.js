@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 
 export default class VariantElementText extends Component {
-	constructor() {
-		super()
+	constructor(args) {
+		super(args)
+
+		var value;
+		try {
+			value = args.data.params.text
+		} catch (e) {}
+		console.log(args.data);
 
 		this.state = {
-			value: Math.random()
+			value: value
 		}
 	}
 

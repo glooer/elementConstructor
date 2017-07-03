@@ -44,7 +44,7 @@ class App extends Component {
   }
 
 	_onDrop(el, target, source, sibling) {
-		
+
 	}
 
 	_onCancel(el) {
