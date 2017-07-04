@@ -1,25 +1,42 @@
 import React, { Component } from 'react';
 
 export default class VariantElementText extends Component {
-	constructor(args) {
-		super(args)
+	constructor(props) {
+		super(props)
 
 		var value;
 		try {
-			value = args.data.params.text
+			value = this.props.data.params.text
 		} catch (e) {}
-		console.log(args.data);
 
 		this.state = {
-			value: value
+			data: {
+				value: value
+			}
 		}
+
+
 	}
+
+	componentWillReceiveProps() {
+		var value;
+		try {
+			value = this.props.data.params.text
+		} catch (e) {}
+
+		this.setState((prevState) => {
+			prevState.data.value = value
+
+			return prevState;
+		})
+	}
+
 
 	render() {
 		return (
 			<div className="variant-element__container">
 				<div className="variant-element-text">
-					{ this.state.value }
+					{ this.state.data.value }
 				</div>
 			</div>
 		)
