@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Component from './VariantBase'
 
 export default class VariantElementButton extends Component {
 	constructor() {
 		super()
-
-		this.state = {
-			value: Math.random()
-		}
 
 		this.testHandels = this.testHandels.bind(this)
 	}
@@ -17,13 +14,10 @@ export default class VariantElementButton extends Component {
 		}))
 	}
 
-	render() {
+	renderElement() {
 		return (
-			<div className="variant-element__container">
-				<div className="variant-element-button">
-					<button className="btn btn-secondary" onClick={this.testHandels}>{ this.state.value }</button>
-				</div>
-			</div>
+			<button className="btn btn-secondary" onClick={ this.testHandels }>{ this.state.data.value }</button>
 		)
 	}
+
 }

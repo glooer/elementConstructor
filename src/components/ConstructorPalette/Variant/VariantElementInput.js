@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Component from './VariantBase'
 
 export default class VariantElementInput extends Component {
-	render() {
+
+	renderElement() {
 		return (
-			<div className="variant-element__container">
-				<div className="variant-element-input">
-					<input className="form-control"/>
-				</div>
-			</div>
+			<input className="form-control"/>
 		)
 	}
 }

@@ -153,6 +153,55 @@ export default class ConstructorZone extends Component {
 		this.search = null;
 	}
 
+	insertElementAfter() {
+
+	}
+
+	insertElementToRow(element_name, container_id) {
+
+		let container_offset;
+		[container_id, container_offset] = container_id.split(/_/);
+
+		let row = this.getElementById(container_id);
+
+		row.rows[container_offset].push({
+			classContainer: 'col-lg-12',
+			component: {
+				name: element_name,
+				params: {}
+			}
+		})
+
+		// console.log(row);
+		this.updateElementById(container_id, row);
+
+		// console.log(this.getElementById(container_id), [container_id, container_offset])
+	}
+
+	updateElementById(id, component) {
+		this.setState(prevState => {
+			this.stateUpdateElementById(id, component, prevState);
+			return prevState;
+		})
+	}
+
+	stateUpdateElementById(id, component, prevState) {
+		if (Array.isArray(prevState)) {
+			prevState = prevState.map(element => {
+				this.stateUpdateElementById(id, component, element)
+			})
+		} else if (prevState.rows) {
+			// prevState = prevState.rows.map()
+		} else {
+			if (prevState.id == id) {
+				prevState = component;
+			}
+		}
+
+
+		return prevState;
+	}
+
 
 	setKeysInside(state) {
 		if (Array.isArray(state)) {
@@ -160,6 +209,7 @@ export default class ConstructorZone extends Component {
 				return this.setKeysInside(item)
 			})
 		} else if (state.rows) {
+			state.id = this.searchIterator++;
 			state.rows.map(item => {
 				return this.setKeysInside(item)
 			})
@@ -194,8 +244,11 @@ export default class ConstructorZone extends Component {
 			})
 		}
 
-		return !res || res < state.id ? state.id : res;
+		return !res || res < state.id ? Number(state.id) : res;
 	}
+
+
+
 
 
 	recursiveSearch(state, id, element = null) {
@@ -213,12 +266,18 @@ export default class ConstructorZone extends Component {
 				}
 			})
 		} else if (state.rows) {
-			state.rows.forEach(item => {
-				localElement = this.recursiveSearch(item, id)
-				if (localElement && localElement.id == id) {
-					element = localElement
-				}
-			})
+			// мы же можем искать и по строке
+			if (state.id == id) {
+				element = state
+			} else {
+				state.rows.forEach(item => {
+					localElement = this.recursiveSearch(item, id)
+					if (localElement && localElement.id == id) {
+						element = localElement
+					}
+				})
+			}
+
 		} else if (state.id == id) {
 			return state
 		}
@@ -229,11 +288,6 @@ export default class ConstructorZone extends Component {
 
 	getElementById(id) {
 		return this.recursiveSearch(this.state.zone, id)
-
-	}
-
-	updateElementById(id, component) {
-
 	}
 
 	changeText(id, text) {
@@ -258,28 +312,29 @@ export default class ConstructorZone extends Component {
 		}
 		switch (element.component.name) {
 			case 'VariantElementText':
-				return <VariantElementText data={element.component} />
+				return <VariantElementText data={element} />
 		}
 	}
 
 	variantElementRender(component) {
+		return this.variantElementFactory(component) ;
 		return (
-			<div key={component.id} className={ component.classContainer + ' qwe-' + component.id + ' text' + component.component.params.text }>
+			<div key={ component.id } data-element-id={ component.id } className={ component.classContainer }>
 				{ this.variantElementFactory(component) }
 			</div>
 		);
 	}
 
-	variantElementContainerRender(components) {
+	variantElementContainerRender(components, i = null) {
 
 		return (
-			<div className="row constructor-drop-zone__container" ref={this.props.dragula}>
+			<div data-element-id={ i } data-type="row" className="row constructor-drop-zone__container" ref={this.props.dragula}>
 				{ components.map((row) => {
 					if (row.rows) {
 						return (
-							<div className={ row.classContainer }>
-								{ row.rows.map(component => {
-									return this.variantElementContainerRender(component);
+							<div data-element-id={ row.id } data-type={ 'row' } className={ row.classContainer }>
+								{ row.rows.map((component, i) => {
+									return this.variantElementContainerRender(component, `${row.id}_${i}`);
 								}) }
 							</div>
 						)
@@ -294,13 +349,11 @@ export default class ConstructorZone extends Component {
 	}
 
 	render() {
-
-
 		return (
 			<div className="col-lg-8 constructor-zone__container">
 				<div className="constructor-drop-zone__container">
-					{ this.state.zone.map(element => {
-						return this.variantElementContainerRender(element)
+					{ this.state.zone.map((element, i) => {
+						return this.variantElementContainerRender(element, `root_${i}`)
 					}) }
 				</div>
 				<button onClick={ () => this.changeText(42, 'newText!') } >test</button>

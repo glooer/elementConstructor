@@ -36,7 +36,7 @@ class App extends Component {
 			<div className="container-fluid">
 				<div className="row constructor__container">
 					<ConstructorPalette dragula={this.dragulaDecorator} />
-					<ConstructorZone dragula={this.dragulaDecorator} />
+					<ConstructorZone ref="constructorZoneContainer" dragula={this.dragulaDecorator} />
 					<ConstructorProperty />
 				</div>
 			</div>
@@ -44,6 +44,13 @@ class App extends Component {
   }
 
 	_onDrop(el, target, source, sibling) {
+		let is_new_element	= !!!el.dataset.elementId,
+				elementName			= el.dataset.elementName,
+				elementId				= target.dataset.elementId
+
+		if (is_new_element) {
+			this.refs.constructorZoneContainer.insertElementToRow(elementName, elementId)
+		}
 
 	}
 
