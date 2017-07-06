@@ -1,150 +1,154 @@
 import React, { Component } from 'react';
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
+import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
 
 export default class ConstructorZone extends Component {
 
 	constructor() {
 		super()
 		this.state = {
-			zone: [
-				[
-					{
-						"classContainer": "col-lg-2",
-						"component": {
-							"name": "VariantElementText",
-							"params": {
-								"text": "logo"
-							}
-						}
-					},
-					{
-						"classContainer": "col-lg-8",
-						"component": {
+			zone: {
+				"classContainer": "col-lg-12",
+				"rows": [
+					[
+						{
+							"classContainer": "col-lg-2",
+							"component": {
 								"name": "VariantElementText",
 								"params": {
-									"text": "search"
+									"text": "logo"
 								}
-						}
-					},
-					{
-						"classContainer": "col-lg-2",
-						"component": {
+							}
+						},
+						{
+							"classContainer": "col-lg-8",
+							"component": {
+									"name": "VariantElementText",
+									"params": {
+										"text": "search"
+									}
+							}
+						},
+						{
+							"classContainer": "col-lg-2",
+							"component": {
+									"name": "VariantElementText",
+									"params": {
+										"text": "phone"
+									}
+							}
+						},
+
+					],
+					[
+						{
+							"classContainer": "col-lg-12",
+							"component": {
 								"name": "VariantElementText",
 								"params": {
-									"text": "phone"
+									"text": "sections"
 								}
-						}
-					},
-
-				],
-				[
-					{
-						"classContainer": "col-lg-12",
-						"component": {
-							"name": "VariantElementText",
-							"params": {
-								"text": "sections"
 							}
 						}
-					}
-				],
-				[
-					{
-						"classContainer": "col-lg-12",
-						"component": {
-							"name": "VariantElementText",
-							"params": {
-								"src": "https://placehold.it/200x200",
-								"text": "image"
+					],
+					[
+						{
+							"classContainer": "col-lg-12",
+							"component": {
+								"name": "VariantElementText",
+								"params": {
+									"src": "https://placehold.it/200x200",
+									"text": "image"
+								}
 							}
 						}
-					}
-				],
-				[
-					{
-						"classContainer": "col-lg-4",
-						"rows": [
-							[
-								{
-									"classContainer": "col-lg-12",
-									"component": {
-										"name": "VariantElementText",
-										"params": {
-											"text": "category"
+					],
+					[
+						{
+							"classContainer": "col-lg-4",
+							"rows": [
+								[
+									{
+										"classContainer": "col-lg-12",
+										"component": {
+											"name": "VariantElementText",
+											"params": {
+												"text": "category"
+											}
+										}
+									},
+									{
+										"classContainer": "col-lg-12",
+										"component": {
+											"name": "VariantElementText",
+											"params": {
+												"text": "news"
+											}
 										}
 									}
-								},
-								{
-									"classContainer": "col-lg-12",
-									"component": {
-										"name": "VariantElementText",
-										"params": {
-											"text": "news"
-										}
-									}
-								}
-							],
+								],
 
-						]
-					},
-					{
-						"classContainer": "col-lg-8",
-						"rows": [
-							[
-								{
-									"classContainer": "col-lg-6",
-									"component": {
-										"name": "VariantElementText",
-										"params": {
-											"text": "products"
-										}
-									}
-								},
-								{
-									"classContainer": "col-lg-6",
-									"component": {
-										"name": "VariantElementText",
-										"params": {
-											"text": "products"
-										}
-									}
-								},
-								{
-									"classContainer": "col-lg-6",
-									"component": {
-										"name": "VariantElementText",
-										"params": {
-											"text": "products"
-										}
-									}
-								},
-							],
-							[
-								{
-									"id": "42",
-									"classContainer": "col-lg-8",
-									"component": {
-										"name": "VariantElementText",
-										"params": {
-											"text": "products"
-										}
-									}
-								},
-								{
-									"id": "5234",
-									"classContainer": "col-lg-6",
-									"component": {
-										"name": "VariantElementText",
-										"params": {
-											"text": "products"
-										}
-									}
-								},
 							]
-						]
-					}
+						},
+						{
+							"classContainer": "col-lg-8",
+							"rows": [
+								[
+									{
+										"classContainer": "col-lg-6",
+										"component": {
+											"name": "VariantElementText",
+											"params": {
+												"text": "products"
+											}
+										}
+									},
+									{
+										"classContainer": "col-lg-6",
+										"component": {
+											"name": "VariantElementText",
+											"params": {
+												"text": "products"
+											}
+										}
+									},
+									{
+										"classContainer": "col-lg-6",
+										"component": {
+											"name": "VariantElementText",
+											"params": {
+												"text": "products"
+											}
+										}
+									},
+								],
+								[
+									{
+										"id": "42",
+										"classContainer": "col-lg-8",
+										"component": {
+											"name": "VariantElementText",
+											"params": {
+												"text": "products"
+											}
+										}
+									},
+									{
+										"id": "5234",
+										"classContainer": "col-lg-6",
+										"component": {
+											"name": "VariantElementText",
+											"params": {
+												"text": "products"
+											}
+										}
+									},
+								]
+							]
+						}
+					]
 				]
-			]
+			}
 		}
 
 		this.searchIterator = this.getMaxId(this.state.zone) + 1 || 1;
@@ -157,32 +161,48 @@ export default class ConstructorZone extends Component {
 
 	}
 
-	insertElementToRow(element_name, container_id) {
+	getNextIteratorId() {
+		return this.searchIterator++;
+	}
 
+	swapElement(element1, element2) {
+		
+	}
+
+	insertElementToRow(element_name, container_id, insertBefore = undefined) {
 		let container_offset;
 		[container_id, container_offset] = container_id.split(/_/);
+		container_offset = Number(container_offset);
 
 		let row = this.getElementById(container_id);
 
-		row.rows[container_offset].push({
+		let new_component = {
+			id: this.getNextIteratorId(),
 			classContainer: 'col-lg-12',
 			component: {
 				name: element_name,
 				params: {}
 			}
-		})
+		};
 
-		// console.log(row);
+
+		let ins = row.rows[container_offset].reduce((acc, val, i) => {
+			return acc === null || val.id == insertBefore ? i : acc
+		}, row.rows[container_offset].length)
+
+		row.rows[container_offset].splice(ins, 0, new_component)
+
+
 		this.updateElementById(container_id, row);
-
-		// console.log(this.getElementById(container_id), [container_id, container_offset])
 	}
 
 	updateElementById(id, component) {
 		this.setState(prevState => {
-			this.stateUpdateElementById(id, component, prevState);
+			prevState = this.stateUpdateElementById(id, component, prevState);
 			return prevState;
 		})
+
+		this.forceUpdate()
 	}
 
 	stateUpdateElementById(id, component, prevState) {
@@ -191,7 +211,9 @@ export default class ConstructorZone extends Component {
 				this.stateUpdateElementById(id, component, element)
 			})
 		} else if (prevState.rows) {
-			// prevState = prevState.rows.map()
+			prevState.rows = prevState.rows.map(element => {
+				this.stateUpdateElementById(id, component, element)
+			})
 		} else {
 			if (prevState.id == id) {
 				prevState = component;
@@ -287,6 +309,11 @@ export default class ConstructorZone extends Component {
 
 
 	getElementById(id) {
+
+		if (id == 'root') {
+			return this.state.zone
+		}
+
 		return this.recursiveSearch(this.state.zone, id)
 	}
 
@@ -313,16 +340,13 @@ export default class ConstructorZone extends Component {
 		switch (element.component.name) {
 			case 'VariantElementText':
 				return <VariantElementText data={element} />
+			case 'VariantElementImg':
+				return <VariantElementImg data={element} />
 		}
 	}
 
 	variantElementRender(component) {
 		return this.variantElementFactory(component) ;
-		return (
-			<div key={ component.id } data-element-id={ component.id } className={ component.classContainer }>
-				{ this.variantElementFactory(component) }
-			</div>
-		);
 	}
 
 	variantElementContainerRender(components, i = null) {
@@ -352,12 +376,18 @@ export default class ConstructorZone extends Component {
 		return (
 			<div className="col-lg-8 constructor-zone__container">
 				<div className="constructor-drop-zone__container">
+					{ this.variantElementContainerRender([this.state.zone]) }
+				</div>
+			</div>
+		)
+
+		return (
+			<div className="col-lg-8 constructor-zone__container">
+				<div className="constructor-drop-zone__container">
 					{ this.state.zone.map((element, i) => {
 						return this.variantElementContainerRender(element, `root_${i}`)
 					}) }
 				</div>
-				<button onClick={ () => this.changeText(42, 'newText!') } >test</button>
-				<button onClick={ () => this.click() } >test</button>
 			</div>
 		)
 	}

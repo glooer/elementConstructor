@@ -46,10 +46,20 @@ class App extends Component {
 	_onDrop(el, target, source, sibling) {
 		let is_new_element	= !!!el.dataset.elementId,
 				elementName			= el.dataset.elementName,
-				elementId				= target.dataset.elementId
+				elementId				= target.dataset.elementId,
+				insertBefore;
+
+		try {
+			insertBefore = sibling.dataset.elementId
+		} catch (e) {
+			// если элемента нет, то нужно вставить в конец
+		}
+
 
 		if (is_new_element) {
-			this.refs.constructorZoneContainer.insertElementToRow(elementName, elementId)
+			this.refs.constructorZoneContainer.insertElementToRow(elementName, elementId, insertBefore)
+		} else {
+			
 		}
 
 	}

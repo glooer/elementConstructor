@@ -9,8 +9,6 @@ export default class Component extends React.Component {
 		}
 	}
 
-
-
 	componentWillReceiveProps() {
 		let value, classContainer, id;
 		try {
