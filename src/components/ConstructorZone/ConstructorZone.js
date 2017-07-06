@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
 
@@ -166,58 +167,87 @@ export default class ConstructorZone extends Component {
 	}
 
 	swapElement(element1, element2) {
-		
+
 	}
 
-	insertElementToRow(element_name, container_id, insertBefore = undefined) {
+	searchElementAndDeleteById(element_id, prevState) {
+		return this.stateUpdateElementById(element_id, null, prevState)
+	}
+
+	deleteElementById(element_id) {
+		this.setState(prevState => {
+			prevState.zone = this.searchElementAndDeleteById(element_id, prevState.zone);
+			console.log(prevState.zone);
+			return prevState;
+		})
+	}
+
+	moveElement() {
+
+	}
+
+	createAndInsertElementToRow(element_name, container_id, insertBefore = undefined) {
+		let new_component = {
+			id: this.getNextIteratorId(),
+			classContainer: 'col-lg-12',
+			component: {
+				name: element_name,
+				params: {
+					text: '123'
+				}
+			}
+		};
+
+		this.insertComponentToRow(new_component, container_id, insertBefore)
+	}
+
+	insertComponentToRow(component, container_id, insertBefore = undefined) {
 		let container_offset;
 		[container_id, container_offset] = container_id.split(/_/);
 		container_offset = Number(container_offset);
 
 		let row = this.getElementById(container_id);
 
-		let new_component = {
-			id: this.getNextIteratorId(),
-			classContainer: 'col-lg-12',
-			component: {
-				name: element_name,
-				params: {}
-			}
-		};
-
-
 		let ins = row.rows[container_offset].reduce((acc, val, i) => {
-			return acc === null || val.id == insertBefore ? i : acc
+			return val.id == insertBefore ? i : acc;
 		}, row.rows[container_offset].length)
 
-		row.rows[container_offset].splice(ins, 0, new_component)
+		row.rows[container_offset].splice(ins, 0, component)
 
 
 		this.updateElementById(container_id, row);
 	}
 
+	getRowWithNewComponent(component, container_id, insertBefore) {
+
+	}
+
 	updateElementById(id, component) {
 		this.setState(prevState => {
-			prevState = this.stateUpdateElementById(id, component, prevState);
+			prevState.zone = this.stateUpdateElementById(id, component, prevState.zone);
 			return prevState;
 		})
 
-		this.forceUpdate()
+		// this.setState(prevState => prevState)
+		this.forceUpdate();
 	}
 
 	stateUpdateElementById(id, component, prevState) {
-		if (Array.isArray(prevState)) {
-			prevState = prevState.map(element => {
-				this.stateUpdateElementById(id, component, element)
-			})
-		} else if (prevState.rows) {
-			prevState.rows = prevState.rows.map(element => {
-				this.stateUpdateElementById(id, component, element)
-			})
-		} else {
+		if (prevState.id) {
 			if (prevState.id == id) {
 				prevState = component;
+				return prevState;
 			}
+		}
+
+		if (Array.isArray(prevState)) {
+			prevState = prevState.map(element => {
+				return this.stateUpdateElementById(id, component, element)
+			}).filter(z => !!z)
+		} else if (prevState.rows) {
+			prevState.rows = prevState.rows.map(element => {
+				return this.stateUpdateElementById(id, component, element)
+			})
 		}
 
 
@@ -231,13 +261,13 @@ export default class ConstructorZone extends Component {
 				return this.setKeysInside(item)
 			})
 		} else if (state.rows) {
-			state.id = this.searchIterator++;
+			state.id = this.getNextIteratorId();
 			state.rows.map(item => {
 				return this.setKeysInside(item)
 			})
 		} else {
 			if (!state.id) {
-				state.id = this.searchIterator++;
+				state.id = this.getNextIteratorId();
 			}
 		}
 
@@ -307,14 +337,12 @@ export default class ConstructorZone extends Component {
 		return element;
 	}
 
+	getCurrentState() {
+		return this.state.zone;
+	}
 
-	getElementById(id) {
-
-		if (id == 'root') {
-			return this.state.zone
-		}
-
-		return this.recursiveSearch(this.state.zone, id)
+	getElementById(id, prevState = this.getCurrentState()) {
+		return $.extend(true, {}, this.recursiveSearch(prevState, id))
 	}
 
 	changeText(id, text) {
@@ -378,16 +406,9 @@ export default class ConstructorZone extends Component {
 				<div className="constructor-drop-zone__container">
 					{ this.variantElementContainerRender([this.state.zone]) }
 				</div>
-			</div>
-		)
-
-		return (
-			<div className="col-lg-8 constructor-zone__container">
-				<div className="constructor-drop-zone__container">
-					{ this.state.zone.map((element, i) => {
-						return this.variantElementContainerRender(element, `root_${i}`)
-					}) }
-				</div>
+				<button onClick={ () => {
+					this.deleteElementById("5234")
+				} }>тест!</button>
 			</div>
 		)
 	}

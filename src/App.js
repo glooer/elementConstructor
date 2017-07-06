@@ -57,9 +57,9 @@ class App extends Component {
 
 
 		if (is_new_element) {
-			this.refs.constructorZoneContainer.insertElementToRow(elementName, elementId, insertBefore)
+			this.refs.constructorZoneContainer.createAndInsertElementToRow(elementName, elementId, insertBefore)
 		} else {
-			
+
 		}
 
 	}
