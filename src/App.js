@@ -45,8 +45,9 @@ class App extends Component {
 
 	_onDrop(el, target, source, sibling) {
 		let is_new_element	= !!!el.dataset.elementId,
-				elementName			= el.dataset.elementName,
-				elementId				= target.dataset.elementId,
+				element_name			= el.dataset.elementName,
+				element_id				= el.dataset.elementId,
+				container_id			= target.dataset.elementId,
 				insertBefore;
 
 		try {
@@ -57,9 +58,9 @@ class App extends Component {
 
 
 		if (is_new_element) {
-			this.refs.constructorZoneContainer.createAndInsertElementToRow(elementName, elementId, insertBefore)
+			this.refs.constructorZoneContainer.createAndInsertElementToRow(element_name, container_id, insertBefore)
 		} else {
-
+			this.refs.constructorZoneContainer.moveElement(element_id, container_id, insertBefore)
 		}
 
 	}
@@ -80,8 +81,8 @@ class App extends Component {
 		});
 
 		drake.on("drop", function(el, target, source, sibling) {
-			this._onDrop(el, target, source, sibling)
 			drake.cancel(true)
+			this._onDrop(el, target, source, sibling)
 		}.bind(this))
 	}
 

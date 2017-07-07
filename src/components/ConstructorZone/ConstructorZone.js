@@ -182,8 +182,18 @@ export default class ConstructorZone extends Component {
 		})
 	}
 
-	moveElement() {
-
+	moveElement(id, container_id, insertBefore = undefined) {
+		let element = this.getElementById(id);
+		this.setState(prevState => {
+			prevState.zone = this.searchElementAndDeleteById(id, prevState.zone);
+			let component = this.getRowWithNewComponent(element, container_id, insertBefore, prevState.zone)
+			container_id = container_id.split(/_/)[0];
+			prevState.zone = this.stateUpdateElementById(container_id, component, prevState.zone);
+			return prevState;
+		});
+		setTimeout(() => {
+			this.forceUpdate()
+		}, 1)
 	}
 
 	createAndInsertElementToRow(element_name, container_id, insertBefore = undefined) {
@@ -193,7 +203,7 @@ export default class ConstructorZone extends Component {
 			component: {
 				name: element_name,
 				params: {
-					text: '123'
+					text: 'simple text'
 				}
 			}
 		};
@@ -201,12 +211,21 @@ export default class ConstructorZone extends Component {
 		this.insertComponentToRow(new_component, container_id, insertBefore)
 	}
 
+
+
 	insertComponentToRow(component, container_id, insertBefore = undefined) {
+		let row = this.getRowWithNewComponent(component, container_id, insertBefore);
+		container_id = container_id.split(/_/)[0];
+
+		this.updateElementById(container_id, row);
+	}
+
+	getRowWithNewComponent(component, container_id, insertBefore = undefined, prevState = this.getCurrentState()) {
 		let container_offset;
 		[container_id, container_offset] = container_id.split(/_/);
 		container_offset = Number(container_offset);
 
-		let row = this.getElementById(container_id);
+		let row = this.getElementById(container_id, prevState);
 
 		let ins = row.rows[container_offset].reduce((acc, val, i) => {
 			return val.id == insertBefore ? i : acc;
@@ -214,12 +233,7 @@ export default class ConstructorZone extends Component {
 
 		row.rows[container_offset].splice(ins, 0, component)
 
-
-		this.updateElementById(container_id, row);
-	}
-
-	getRowWithNewComponent(component, container_id, insertBefore) {
-
+		return row
 	}
 
 	updateElementById(id, component) {
@@ -404,11 +418,14 @@ export default class ConstructorZone extends Component {
 		return (
 			<div className="col-lg-8 constructor-zone__container">
 				<div className="constructor-drop-zone__container">
-					{ this.variantElementContainerRender([this.state.zone]) }
+					{ this.variantElementContainerRender([this.getCurrentState()]) }
 				</div>
 				<button onClick={ () => {
-					this.deleteElementById("5234")
+					console.log(this.getCurrentState());
 				} }>тест!</button>
+				<button onClick={ () => {
+					this.moveElement("5234")
+				} }>moveElement</button>
 			</div>
 		)
 	}
