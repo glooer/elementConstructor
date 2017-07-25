@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
+// import $ from 'jquery';
+import ConstructorZoneStruct from './ConstructorZoneStruct';
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
 
@@ -7,182 +8,19 @@ export default class ConstructorZone extends Component {
 
 	constructor() {
 		super()
+		this.zoneStruct = new ConstructorZoneStruct;
 		this.state = {
-			zone: {
-				"classContainer": "col-lg-12",
-				"rows": [
-					[
-						{
-							"classContainer": "col-lg-2",
-							"component": {
-								"name": "VariantElementText",
-								"params": {
-									"text": "logo"
-								}
-							}
-						},
-						{
-							"classContainer": "col-lg-8",
-							"component": {
-									"name": "VariantElementText",
-									"params": {
-										"text": "search"
-									}
-							}
-						},
-						{
-							"classContainer": "col-lg-2",
-							"component": {
-									"name": "VariantElementText",
-									"params": {
-										"text": "phone"
-									}
-							}
-						},
-
-					],
-					[
-						{
-							"classContainer": "col-lg-12",
-							"component": {
-								"name": "VariantElementText",
-								"params": {
-									"text": "sections"
-								}
-							}
-						}
-					],
-					[
-						{
-							"classContainer": "col-lg-12",
-							"component": {
-								"name": "VariantElementText",
-								"params": {
-									"src": "https://placehold.it/200x200",
-									"text": "image"
-								}
-							}
-						}
-					],
-					[
-						{
-							"classContainer": "col-lg-4",
-							"rows": [
-								[
-									{
-										"classContainer": "col-lg-12",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "category"
-											}
-										}
-									},
-									{
-										"classContainer": "col-lg-12",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "news"
-											}
-										}
-									}
-								],
-
-							]
-						},
-						{
-							"classContainer": "col-lg-8",
-							"rows": [
-								[
-									{
-										"classContainer": "col-lg-6",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-									{
-										"classContainer": "col-lg-6",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-									{
-										"classContainer": "col-lg-6",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-								],
-								[
-									{
-										"id": "42",
-										"classContainer": "col-lg-8",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-									{
-										"id": "5234",
-										"classContainer": "col-lg-6",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-								]
-							]
-						}
-					]
-				]
-			}
+			zone: this.setKeysInside(this.zoneStruct.getStruct())
 		}
-
-		this.searchIterator = this.getMaxId(this.state.zone) + 1 || 1;
-		this.state.zone = this.setKeysInside(this.state.zone);
-
-		this.search = null;
 
 		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
 	}
 
-	componentList() {
-		return {
-			VariantElementText: VariantElementText,
-			VariantElementImg: VariantElementImg,
-		}
-	}
 
-	getComponentObjectByName(element_name) {
-		let componentList = this.componentList();
-		return new componentList[element_name];
-	}
 
-	insertElementAfter() {
-
-	}
-
-	getNextIteratorId() {
-		return this.searchIterator++;
-	}
-
-	swapElement(element1, element2) {
-
-	}
+	// getNextIteratorId() {
+	// 	return this.searchIterator++;
+	// }
 
 	searchElementAndDeleteById(element_id, prevState) {
 		return this.stateUpdateElementById(element_id, null, prevState)
@@ -210,27 +48,12 @@ export default class ConstructorZone extends Component {
 		}, 1)
 	}
 
+	getNewComponent(...args) {
+		return this.zoneStruct.getNewComponent(...args)
+	}
+
 	createAndInsertElementToRow(element_name, container_id, insertBefore = undefined) {
-
-		// создаем компонент,
-		// т.к. создавать приходиться по названию, то выше есть объект перечисляющий названия.
-
-
-		let element_params = this.getComponentObjectByName(element_name).getPropsList();
-
-		for (var item in element_params) {
-			element_params[item] = element_params[item].value;
-		}
-
-		let new_component = {
-			id: this.getNextIteratorId(),
-			classContainer: 'col-lg-12',
-			component: {
-				name: element_name,
-				params: element_params
-			}
-		};
-
+		let new_component = this.getNewComponent(element_name);
 		this.insertComponentToRow(new_component, container_id, insertBefore)
 	}
 
@@ -269,46 +92,29 @@ export default class ConstructorZone extends Component {
 		this.forceUpdate();
 	}
 
-	stateUpdateElementById(id, component, prevState) {
-		if (prevState.id) {
-			if (prevState.id == id) {
-				prevState = component;
-				return prevState;
-			}
-		}
-
-		if (Array.isArray(prevState)) {
-			prevState = prevState.map(element => {
-				return this.stateUpdateElementById(id, component, element)
-			}).filter(z => !!z)
-		} else if (prevState.rows) {
-			prevState.rows = prevState.rows.map(element => {
-				return this.stateUpdateElementById(id, component, element)
-			})
-		}
-
-
-		return prevState;
+	stateUpdateElementById(...args) {
+		return this.zoneStruct.stateUpdateElementById(...args);
 	}
 
 
-	setKeysInside(state) {
-		if (Array.isArray(state)) {
-			state.map((item) => {
-				return this.setKeysInside(item)
-			})
-		} else if (state.rows) {
-			state.id = this.getNextIteratorId();
-			state.rows.map(item => {
-				return this.setKeysInside(item)
-			})
-		} else {
-			if (!state.id) {
-				state.id = this.getNextIteratorId();
-			}
-		}
-
-		return state;
+	setKeysInside(...args) {
+		return this.zoneStruct.setKeysInside(...args);
+		// if (Array.isArray(state)) {
+		// 	state.map((item) => {
+		// 		return this.setKeysInside(item)
+		// 	})
+		// } else if (state.rows) {
+		// 	state.id = this.getNextIteratorId();
+		// 	state.rows.map(item => {
+		// 		return this.setKeysInside(item)
+		// 	})
+		// } else {
+		// 	if (!state.id) {
+		// 		state.id = this.getNextIteratorId();
+		// 	}
+		// }
+		//
+		// return state;
 	}
 
 	setKeysZone() {
@@ -318,78 +124,29 @@ export default class ConstructorZone extends Component {
 			prevState.zone = this.setKeysInside(prevState.zone)
 			return prevState;
 		})
-
-		// this.forceUpdate()
 	}
 
-	getMaxId(state, res = 1) {
-		if (Array.isArray(state)) {
-			state.forEach((item) => {
-				res = this.getMaxId(item, res)
-			})
-		} else if (state.rows) {
-			state.rows.forEach(item => {
-				res = this.getMaxId(item, res)
-			})
-		}
-
-		return !res || res < state.id ? Number(state.id) : res;
+	getMaxId(...args) {
+		return this.zoneStruct.getMaxId(...args)
 	}
 
-
-
-
-
-	recursiveSearch(state, id, element = null) {
-		var localElement = null;
-
-		if (element) {
-			return element;
-		}
-
-		if (Array.isArray(state)) {
-			state.forEach(item => {
-				localElement = this.recursiveSearch(item, id)
-				if (localElement && localElement.id == id) {
-					element = localElement
-				}
-			})
-		} else if (state.rows) {
-			// мы же можем искать и по строке
-			if (state.id == id) {
-				element = state
-			} else {
-				state.rows.forEach(item => {
-					localElement = this.recursiveSearch(item, id)
-					if (localElement && localElement.id == id) {
-						element = localElement
-					}
-				})
-			}
-
-		} else if (state.id == id) {
-			return state
-		}
-
-		return element;
+	recursiveSearch(...args) {
+		return this.zoneStruct.recursiveSearch(...args)
 	}
 
 	getCurrentState() {
 		return this.state.zone;
 	}
 
-	getElementById(id, prevState = this.getCurrentState()) {
-		let element = $.extend(true, {}, this.recursiveSearch(prevState, id))
-
-		return $.isEmptyObject(element) ? null : element
-	}
-
-	changeText(id, text) {
-
+	getElementById(...args) {
+		return this.zoneStruct.getElementById(...args);
+		// let element = $.extend(true, {}, this.recursiveSearch(prevState, id))
+		//
+		// return $.isEmptyObject(element) ? null : element
 	}
 
 	updatePropsById(id, props) {
-		let element = this.getElementById(id);
+		let element = this.getElementById(id, this.getCurrentState());
 
 		if (!element) {
 			return;
@@ -427,6 +184,7 @@ export default class ConstructorZone extends Component {
 	}
 
 	setStateToPropertyObject(id) {
+		console.log(id);
 		let element = this.getElementById(id)
 		this.props.onChangeCurrentElementForChangeProperty(element)
 	}
@@ -448,7 +206,6 @@ export default class ConstructorZone extends Component {
 	}
 
 	variantElementContainerRender(components, i = null) {
-
 		return (
 			<div data-element-id={ i } data-type="row" className="row constructor-drop-zone__container" ref={this.props.dragula}>
 				{ components.map((row) => {
