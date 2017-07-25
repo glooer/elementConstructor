@@ -7,7 +7,14 @@ export default class Component extends React.Component {
 		this.state = {
 			data: {}
 		}
+
+		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
 	}
+
+	getPropsList() {
+		return null;
+	}
+
 
 	componentWillReceiveProps() {
 		let value, classContainer, id;
@@ -20,8 +27,8 @@ export default class Component extends React.Component {
 		this.setState((prevState) => {
 			prevState.data.value = value
 			prevState.data.classContainer = classContainer || 'col-lg-12'
-			prevState.data.id = id
-
+			prevState.data.id = id;
+			
 			return prevState;
 		})
 	}
@@ -35,9 +42,20 @@ export default class Component extends React.Component {
 		return null;
 	}
 
+	// устанавливаем структуру объекта по которому кликнули в объект свойств (что бы можно было его изменять)
+	setStateToPropertyObject(event) {
+		let id = event.currentTarget.dataset.elementId;
+
+		if (!id) { // если идшник ещё не присвоен, вероятно это компонент из палитры, по этому ничего с ним не делаем.
+			return;
+		}
+
+		this.props.setStateToPropertyObject(id)
+	}
+
 	render() {
 		return (
-			<div key={ this.state.data.id } data-element-name={ this.constructor.name } data-element-id={ this.state.data.id } className={ this.state.data.classContainer }>
+			<div key={ this.state.data.id } onClick={ this.setStateToPropertyObject } data-element-name={ this.constructor.name } data-element-id={ this.state.data.id } className={ this.state.data.classContainer }>
 				<div className="variant-element__container">
 					<div className={ this.classNameToCss() }>
 						{ this.renderElement() }

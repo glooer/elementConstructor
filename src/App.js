@@ -31,20 +31,41 @@ class App extends Component {
 		this.initDragula();
 	}
 
+	onChangeCurrentElementForChangeProperty(obj) {
+		this.refs.constructorPropertyContainer.setState(prevState => {
+			prevState.currentElementId = obj.id;
+			let params = obj.component.params;
+			params['classContainer'] = obj.classContainer;
+			prevState.currentElementProps = params;
+			return prevState;
+		});
+	}
+
+	onChangeElementProps(state) {
+		this.refs.constructorZoneContainer.updatePropsById(state.currentElementId, state.currentElementProps)
+	}
+
   render() {
     return (
 			<div className="container-fluid">
 				<div className="row constructor__container">
 					<ConstructorPalette dragula={this.dragulaDecorator} />
-					<ConstructorZone ref="constructorZoneContainer" dragula={this.dragulaDecorator} />
-					<ConstructorProperty />
+					<ConstructorZone
+						ref="constructorZoneContainer"
+						dragula={this.dragulaDecorator}
+						onChangeCurrentElementForChangeProperty={ this.onChangeCurrentElementForChangeProperty.bind(this) }
+					/>
+					<ConstructorProperty
+						ref="constructorPropertyContainer"
+						onChangeElementProps={ this.onChangeElementProps.bind(this) }
+					/>
 				</div>
 			</div>
     );
   }
 
 	_onDrop(el, target, source, sibling) {
-		let is_new_element	= !!!el.dataset.elementId,
+		let is_new_element		= !!!el.dataset.elementId,
 				element_name			= el.dataset.elementName,
 				element_id				= el.dataset.elementId,
 				container_id			= target.dataset.elementId,

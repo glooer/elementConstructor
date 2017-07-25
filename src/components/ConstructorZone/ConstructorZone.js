@@ -156,6 +156,20 @@ export default class ConstructorZone extends Component {
 		this.state.zone = this.setKeysInside(this.state.zone);
 
 		this.search = null;
+
+		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
+	}
+
+	componentList() {
+		return {
+			VariantElementText: VariantElementText,
+			VariantElementImg: VariantElementImg,
+		}
+	}
+
+	getComponentObjectByName(element_name) {
+		let componentList = this.componentList();
+		return new componentList[element_name];
 	}
 
 	insertElementAfter() {
@@ -197,14 +211,23 @@ export default class ConstructorZone extends Component {
 	}
 
 	createAndInsertElementToRow(element_name, container_id, insertBefore = undefined) {
+
+		// создаем компонент,
+		// т.к. создавать приходиться по названию, то выше есть объект перечисляющий названия.
+
+
+		let element_params = this.getComponentObjectByName(element_name).getPropsList();
+
+		for (var item in element_params) {
+			element_params[item] = element_params[item].value;
+		}
+
 		let new_component = {
 			id: this.getNextIteratorId(),
 			classContainer: 'col-lg-12',
 			component: {
 				name: element_name,
-				params: {
-					text: 'simple text'
-				}
+				params: element_params
 			}
 		};
 
@@ -356,11 +379,39 @@ export default class ConstructorZone extends Component {
 	}
 
 	getElementById(id, prevState = this.getCurrentState()) {
-		return $.extend(true, {}, this.recursiveSearch(prevState, id))
+		let element = $.extend(true, {}, this.recursiveSearch(prevState, id))
+
+		return $.isEmptyObject(element) ? null : element
 	}
 
 	changeText(id, text) {
 
+	}
+
+	updatePropsById(id, props) {
+		let element = this.getElementById(id);
+
+		if (!element) {
+			return;
+		}
+
+		if (props['classContainer']) {
+			element.classContainer = props['classContainer'];
+		}
+
+		Object.keys(element.component.params).forEach(key => {
+			if (props[key] !== undefined) {
+				element.component.params[key] = props[key]
+			}
+		})
+
+		this.updateElementById(id, element);
+		// почему то состояние не обновляется сразу, точнее само состояние обновляется но дом нет.
+		// в чем проблема я не знаю,
+		// возможно если знать рекат по лучше это очевидно, но не сейчас
+		setTimeout(() => {
+			this.setState(e => e)
+		}, 1)
 	}
 
 	click() {
@@ -375,15 +426,20 @@ export default class ConstructorZone extends Component {
 
 	}
 
+	setStateToPropertyObject(id) {
+		let element = this.getElementById(id)
+		this.props.onChangeCurrentElementForChangeProperty(element)
+	}
+
 	variantElementFactory(element) {
 		if (!element.component) {
 			return
 		}
 		switch (element.component.name) {
 			case 'VariantElementText':
-				return <VariantElementText data={element} />
+				return <VariantElementText data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
 			case 'VariantElementImg':
-				return <VariantElementImg data={element} />
+				return <VariantElementImg data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
 		}
 	}
 

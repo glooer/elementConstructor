@@ -8,6 +8,9 @@ import VariantElementButton from './Variant/VariantElementButton'
 
 
 export default class ConstructorPalette extends Component {
+
+
+
 	render() {
 		return (
 			<div className="col-lg-2 constructor-palette__container">
