@@ -10,6 +10,19 @@ export default class ConstructorZoneStruct {
 		this.state.data = this.searchElementAndDeleteById(element_id, this.getStruct())
 	}
 
+	_createAndInsertElementToRow(element_name, container_id, insert_before) {
+		let new_component = this.getNewComponent(element_name);
+		this.insertComponentToRow(new_component, container_id, insert_before)
+	}
+
+	insertComponentToRow(component, container_id, insert_before = undefined) {
+		let row = this.getRowWithNewComponent(component, container_id, insert_before);
+		container_id = container_id.split(/_/)[0];
+
+		this._stateUpdateElementById(container_id, row);
+
+	}
+
 	_moveElement(id, container_id, insertBefore = undefined) {
 		let element = this.getElementById(id);
 		this._searchElementAndDeleteById(id);

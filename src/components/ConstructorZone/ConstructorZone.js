@@ -47,12 +47,13 @@ export default class ConstructorZone extends Component {
 		this.forceUpdateZone();
 	}
 
-	stateUpdateElementById(...args) {
-		return this.zoneStruct.stateUpdateElementById(...args);
-	}
-
 	getCurrentState() {
 		return this.state.zone;
+	}
+
+	createAndInsertElementToRow(element_name, container_id, insert_before = undefined) {
+		this.zoneStruct._createAndInsertElementToRow(element_name, container_id, insert_before)
+		this.forceUpdateZone();
 	}
 
 	updatePropsById(id, props) {
@@ -61,20 +62,13 @@ export default class ConstructorZone extends Component {
 	}
 
 	click() {
-		// this.setState(prevState => {
-		// 	prevState.zone[0][0].component.params.text = "omg!"
-		// 	prevState.zone[0][1].component.params.text = "wat!"
-		// 	return prevState;
-		// })
-
-		console.log(this.search);
 
 	}
 
 	setStateToPropertyObject(id) {
 		let element = this.zoneStruct.getElementById(id)
 		this.props.onChangeCurrentElementForChangeProperty(element)
-	} 
+	}
 
 	variantElementFactory(element) {
 		if (!element.component) {
