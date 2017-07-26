@@ -32,17 +32,27 @@ class App extends Component {
 	}
 
 	onChangeCurrentElementForChangeProperty(obj) {
-		this.refs.constructorPropertyContainer.setState(prevState => {
-			prevState.currentElementId = obj.id;
-			let params = obj.component.params;
-			params['classContainer'] = obj.classContainer;
-			prevState.currentElementProps = params;
-			return prevState;
+		obj.isRow = false;
+		this.refs.constructorPropertyContainer.setNewProps(obj);
+	}
+
+	onChangeCurrentRowForChangeProperty(id) {
+		this.refs.constructorPropertyContainer.setNewProps({
+			id: id,
+			classContainer: '',
+			isRow: true,
+			component: {
+				params: {}
+			}
 		});
 	}
 
 	onChangeElementProps(state) {
 		this.refs.constructorZoneContainer.updatePropsById(state.currentElementId, state.currentElementProps)
+	}
+
+	onDeleteElementProps(id) {
+		this.refs.constructorZoneContainer.deleteElementById(id)
 	}
 
   render() {
@@ -54,10 +64,12 @@ class App extends Component {
 						ref="constructorZoneContainer"
 						dragula={this.dragulaDecorator}
 						onChangeCurrentElementForChangeProperty={ this.onChangeCurrentElementForChangeProperty.bind(this) }
+						onChangeCurrentRowForChangeProperty={ this.onChangeCurrentRowForChangeProperty.bind(this) }
 					/>
 					<ConstructorProperty
 						ref="constructorPropertyContainer"
 						onChangeElementProps={ this.onChangeElementProps.bind(this) }
+						onDeleteElementProps={ this.onDeleteElementProps.bind(this) }
 					/>
 				</div>
 			</div>

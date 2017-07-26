@@ -6,6 +6,7 @@ export default class ConstructorProperty extends Component {
 		super();
 
 		this.state = {
+			isRow: false,
 			currentElementId: 123,
 			currentElementProps: {
 				'text': '123',
@@ -16,6 +17,7 @@ export default class ConstructorProperty extends Component {
 
 		this.saveProps = this.saveProps.bind(this)
 		this.handleChange = this.handleChange.bind(this)
+		this.deleteElement = this.deleteElement.bind(this)
 	}
 
 	handleChange(event) {
@@ -26,6 +28,22 @@ export default class ConstructorProperty extends Component {
 			prevState.currentElementProps[key] = value
 			return prevState;
 		})
+
+		setTimeout(() => {
+			this.saveProps();
+		}, 1)
+
+	}
+
+	setNewProps(obj) {
+		this.setState(prevState => {
+			prevState.currentElementId = obj.id;
+			prevState.isRow = obj.isRow;
+			let params = obj.component.params;
+			params['classContainer'] = obj.classContainer;
+			prevState.currentElementProps = params;
+			return prevState;
+		});
 	}
 
 	renderInputGroup(key, value, name = key) {
@@ -41,8 +59,32 @@ export default class ConstructorProperty extends Component {
 		this.props.onChangeElementProps(this.state)
 	}
 
+	deleteElement() {
+		this.setState({
+			currentElementId: null
+		})
+		this.props.onDeleteElementProps(this.state.currentElementId);
+	}
+
 	render() {
 		let props = this.state.currentElementProps
+
+		if (!this.state.currentElementId) {
+			return (
+				<h3>Элемент не выбран</h3>
+			);
+		}
+
+		if (this.state.isRow) {
+			return (
+				<div className="col-lg-2">
+					<h3>Текущий номер контейнера: { this.state.currentElementId }</h3>
+					<div className="form-group">
+						<button className="btn btn-danger" onClick={ this.deleteElement }>Удалить</button>
+					</div>
+				</div>
+			)
+		}
 
 		return (
 			<div className="col-lg-2">
@@ -57,6 +99,7 @@ export default class ConstructorProperty extends Component {
 				</div>
 				<div className="form-group">
 					<button className="btn btn-info" onClick={ this.saveProps }>Сохранить</button>
+					<button className="btn btn-danger" style={ {marginLeft: '1rem'} } onClick={ this.deleteElement }>Удалить</button>
 				</div>
 			</div>
 		)

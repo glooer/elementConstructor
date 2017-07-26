@@ -15,6 +15,23 @@ export default class ConstructorZoneStruct {
 		this.insertComponentToRow(new_component, container_id, insert_before)
 	}
 
+	deleteZoneById(zone_id) {
+		let zone_offset;
+
+		[zone_id, zone_offset] = zone_id.split(/_/);
+
+		if (!zone_offset) {
+			console.log('не передан сдвиг (зона в другой зоне, не знаю вообще возможно ли такое, по этому пока заглушка).');
+			return;
+		}
+
+		let zone = this.getElementById(zone_id)
+
+		zone.rows.splice(zone_offset, 1);
+		this._stateUpdateElementById(zone_id, zone);
+
+	}
+
 	insertComponentToRow(component, container_id, insert_before = undefined) {
 		let row = this.getRowWithNewComponent(component, container_id, insert_before);
 		container_id = container_id.split(/_/)[0];
@@ -200,8 +217,9 @@ export default class ConstructorZoneStruct {
 
 	componentList() {
 		return {
-			VariantElementText: VariantElementText,
-			VariantElementImg: VariantElementImg,
+			VariantElementText:				VariantElementText,
+			VariantElementImg:				VariantElementImg,
+			VariantElementContainer:	VariantElementContainer
 		}
 	}
 

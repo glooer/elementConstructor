@@ -15,6 +15,7 @@ export default class ConstructorZone extends Component {
 		}
 
 		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
+		this.dropZoneClickHander = this.dropZoneClickHander.bind(this)
 	}
 
 	forceUpdateZone() {
@@ -28,12 +29,21 @@ export default class ConstructorZone extends Component {
 		// возможно если знать рекат по лучше это очевидно, но не сейчас
 		setTimeout(() => {
 			this.forceUpdate()
-		}, 1)
+		}, 0)
 	}
 
 
 	deleteElementById(element_id) {
-		this.zoneStruct._searchElementAndDeleteById(element_id)
+		if (element_id.toString().match(/_/)) {
+			this.zoneStruct.deleteZoneById(element_id)
+		} else {
+			this.zoneStruct._searchElementAndDeleteById(element_id)
+		}
+		this.forceUpdateZone();
+	}
+
+	deleteZoneById(zone_id) {
+		this.zoneStruct.deleteZoneById(zone_id);
 		this.forceUpdateZone();
 	}
 
@@ -62,7 +72,7 @@ export default class ConstructorZone extends Component {
 	}
 
 	click() {
-
+		console.log(this.state);
 	}
 
 	setStateToPropertyObject(id) {
@@ -86,9 +96,18 @@ export default class ConstructorZone extends Component {
 		return this.variantElementFactory(component) ;
 	}
 
+	dropZoneClickHander(event) {
+		if (event.currentTarget != event.target) {
+			return;
+		}
+
+		let id = event.target.dataset.elementId;
+		this.props.onChangeCurrentRowForChangeProperty(id)
+	}
+
 	variantElementContainerRender(components, i = null) {
 		return (
-			<div data-element-id={ i } data-type="row" className="row constructor-drop-zone__container" ref={this.props.dragula}>
+			<div data-element-id={ i } data-type="row" className="row constructor-drop-zone__container" ref={this.props.dragula} onClick={ this.dropZoneClickHander }>
 				{ components.map((row) => {
 					if (row.rows) {
 						return (
@@ -118,8 +137,8 @@ export default class ConstructorZone extends Component {
 					console.log(this.getCurrentState());
 				} }>тест!</button>
 				<button onClick={ () => {
-					this.moveElement("5234")
-				} }>moveElement</button>
+					this.deleteZoneById("5235_0")
+				} }>deleteZone</button>
 			</div>
 		)
 	}
