@@ -169,9 +169,25 @@ export default class ConstructorZoneStruct {
 		return element;
 	}
 
+	getNewRow() {
+		return {
+			id: this.getNextIteratorId(),
+			classContainer: 'col-lg-12',
+			rows: [
+				[]
+			]
+		};
+	}
+
 	getNewComponent(element_name) {
 		// создаем компонент,
 		// т.к. создавать приходиться по названию, то выше есть объект перечисляющий названия.
+
+		// если компонент это контейнер, то у него немного другая страктура
+		if (element_name == 'VariantElementContainer') {
+			return this.getNewRow();
+		}
+
 		let element_params = this.getComponentObjectByName(element_name).getPropsList();
 
 		for (var item in element_params) {
