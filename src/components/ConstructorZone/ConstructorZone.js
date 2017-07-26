@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ConstructorZoneStruct from './ConstructorZoneStruct';
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
+import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
 
 export default class ConstructorZone extends Component {
 
@@ -10,165 +11,53 @@ export default class ConstructorZone extends Component {
 		super()
 		this.zoneStruct = new ConstructorZoneStruct;
 		this.state = {
-			zone: this.setKeysInside(this.zoneStruct.getStruct())
+			zone: this.zoneStruct.setKeysInside(this.zoneStruct.getStruct())
 		}
 
 		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
 	}
 
-
-
-	// getNextIteratorId() {
-	// 	return this.searchIterator++;
-	// }
-
-	searchElementAndDeleteById(element_id, prevState) {
-		return this.stateUpdateElementById(element_id, null, prevState)
-	}
-
-	deleteElementById(element_id) {
+	forceUpdateZone() {
 		this.setState(prevState => {
-			prevState.zone = this.searchElementAndDeleteById(element_id, prevState.zone);
-			console.log(prevState.zone);
+			prevState.zone = this.zoneStruct.getStruct();
 			return prevState;
 		})
-	}
 
-	moveElement(id, container_id, insertBefore = undefined) {
-		let element = this.getElementById(id);
-		this.setState(prevState => {
-			prevState.zone = this.searchElementAndDeleteById(id, prevState.zone);
-			let component = this.getRowWithNewComponent(element, container_id, insertBefore, prevState.zone)
-			container_id = container_id.split(/_/)[0];
-			prevState.zone = this.stateUpdateElementById(container_id, component, prevState.zone);
-			return prevState;
-		});
+		// почему то состояние не обновляется сразу, точнее само состояние обновляется но дом нет.
+		// в чем проблема я не знаю,
+		// возможно если знать рекат по лучше это очевидно, но не сейчас
 		setTimeout(() => {
 			this.forceUpdate()
 		}, 1)
 	}
 
-	getNewComponent(...args) {
-		return this.zoneStruct.getNewComponent(...args)
+
+	deleteElementById(element_id) {
+		this.zoneStruct._searchElementAndDeleteById(element_id)
+		this.forceUpdateZone();
 	}
 
-	createAndInsertElementToRow(element_name, container_id, insertBefore = undefined) {
-		let new_component = this.getNewComponent(element_name);
-		this.insertComponentToRow(new_component, container_id, insertBefore)
-	}
-
-
-
-	insertComponentToRow(component, container_id, insertBefore = undefined) {
-		let row = this.getRowWithNewComponent(component, container_id, insertBefore);
-		container_id = container_id.split(/_/)[0];
-
-		this.updateElementById(container_id, row);
-	}
-
-	getRowWithNewComponent(component, container_id, insertBefore = undefined, prevState = this.getCurrentState()) {
-		let container_offset;
-		[container_id, container_offset] = container_id.split(/_/);
-		container_offset = Number(container_offset);
-
-		let row = this.getElementById(container_id, prevState);
-
-		let ins = row.rows[container_offset].reduce((acc, val, i) => {
-			return val.id == insertBefore ? i : acc;
-		}, row.rows[container_offset].length)
-
-		row.rows[container_offset].splice(ins, 0, component)
-
-		return row
+	moveElement(id, container_id, insert_before = undefined) {
+		this.zoneStruct._moveElement(id, container_id, insert_before)
+		this.forceUpdateZone();
 	}
 
 	updateElementById(id, component) {
-		this.setState(prevState => {
-			prevState.zone = this.stateUpdateElementById(id, component, prevState.zone);
-			return prevState;
-		})
-
-		// this.setState(prevState => prevState)
-		this.forceUpdate();
+		this.zoneStruct._stateUpdateElementById(id, component);
+		this.forceUpdateZone();
 	}
 
 	stateUpdateElementById(...args) {
 		return this.zoneStruct.stateUpdateElementById(...args);
 	}
 
-
-	setKeysInside(...args) {
-		return this.zoneStruct.setKeysInside(...args);
-		// if (Array.isArray(state)) {
-		// 	state.map((item) => {
-		// 		return this.setKeysInside(item)
-		// 	})
-		// } else if (state.rows) {
-		// 	state.id = this.getNextIteratorId();
-		// 	state.rows.map(item => {
-		// 		return this.setKeysInside(item)
-		// 	})
-		// } else {
-		// 	if (!state.id) {
-		// 		state.id = this.getNextIteratorId();
-		// 	}
-		// }
-		//
-		// return state;
-	}
-
-	setKeysZone() {
-		this.searchIterator = this.getMaxId(this.state.zone)
-
-		this.setState(prevState => {
-			prevState.zone = this.setKeysInside(prevState.zone)
-			return prevState;
-		})
-	}
-
-	getMaxId(...args) {
-		return this.zoneStruct.getMaxId(...args)
-	}
-
-	recursiveSearch(...args) {
-		return this.zoneStruct.recursiveSearch(...args)
-	}
-
 	getCurrentState() {
 		return this.state.zone;
 	}
 
-	getElementById(...args) {
-		return this.zoneStruct.getElementById(...args);
-		// let element = $.extend(true, {}, this.recursiveSearch(prevState, id))
-		//
-		// return $.isEmptyObject(element) ? null : element
-	}
-
 	updatePropsById(id, props) {
-		let element = this.getElementById(id, this.getCurrentState());
-
-		if (!element) {
-			return;
-		}
-
-		if (props['classContainer']) {
-			element.classContainer = props['classContainer'];
-		}
-
-		Object.keys(element.component.params).forEach(key => {
-			if (props[key] !== undefined) {
-				element.component.params[key] = props[key]
-			}
-		})
-
-		this.updateElementById(id, element);
-		// почему то состояние не обновляется сразу, точнее само состояние обновляется но дом нет.
-		// в чем проблема я не знаю,
-		// возможно если знать рекат по лучше это очевидно, но не сейчас
-		setTimeout(() => {
-			this.setState(e => e)
-		}, 1)
+		this.zoneStruct.updatePropsById(id, props);
+		this.forceUpdateZone();
 	}
 
 	click() {
@@ -178,16 +67,14 @@ export default class ConstructorZone extends Component {
 		// 	return prevState;
 		// })
 
-		console.log(this.getElementById("42"))
 		console.log(this.search);
 
 	}
 
 	setStateToPropertyObject(id) {
-		console.log(id);
-		let element = this.getElementById(id)
+		let element = this.zoneStruct.getElementById(id)
 		this.props.onChangeCurrentElementForChangeProperty(element)
-	}
+	} 
 
 	variantElementFactory(element) {
 		if (!element.component) {

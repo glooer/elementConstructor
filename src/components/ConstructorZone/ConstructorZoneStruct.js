@@ -2,16 +2,74 @@
 import $ from 'jquery';
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
+import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
 
 export default class ConstructorZoneStruct {
 
+	_searchElementAndDeleteById(element_id) {
+		this.state.data = this.searchElementAndDeleteById(element_id, this.getStruct())
+	}
+
+	_moveElement(id, container_id, insertBefore = undefined) {
+		let element = this.getElementById(id);
+		this._searchElementAndDeleteById(id);
+		let component = this.getRowWithNewComponent(element, container_id, insertBefore);
+
+		container_id = container_id.split(/_/)[0];
+
+		this._stateUpdateElementById(container_id, component);
+	}
+
+	getRowWithNewComponent(component, container_id, insertBefore = undefined, prevState = this.getStruct()) {
+		let container_offset;
+		[container_id, container_offset] = container_id.split(/_/);
+		container_offset = Number(container_offset);
+
+		let row = this.getElementById(container_id, prevState);
+
+		let ins = row.rows[container_offset].reduce((acc, val, i) => {
+			return val.id == insertBefore ? i : acc;
+		}, row.rows[container_offset].length)
+
+		row.rows[container_offset].splice(ins, 0, component)
+
+		return row
+	}
+
+	searchElementAndDeleteById(element_id, prevState) {
+		return this.stateUpdateElementById(element_id, null, prevState);
+	}
+
 	getElementById(id, prevState = this.getStruct()) {
 		let element = $.extend(true, {}, this.recursiveSearch(prevState, id))
-
 		return $.isEmptyObject(element) ? null : element
 	}
 
-	stateUpdateElementById(id, component, prevState) {
+	updatePropsById(id, props) {
+		let element = this.getElementById(id, this.getStruct());
+
+		if (!element) {
+			return;
+		}
+
+		if (props['classContainer']) {
+			element.classContainer = props['classContainer'];
+		}
+
+		Object.keys(element.component.params).forEach(key => {
+			if (props[key] !== undefined) {
+				element.component.params[key] = props[key]
+			}
+		})
+
+		this._stateUpdateElementById(id, element)
+	}
+
+	_stateUpdateElementById(id, component) {
+		this.state.data = this.stateUpdateElementById(id, component, this.getStruct())
+	}
+
+	stateUpdateElementById(id, component, prevState = this.getStruct()) {
 		if (prevState.id) {
 			if (prevState.id == id) {
 				prevState = component;
