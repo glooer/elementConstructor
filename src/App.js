@@ -98,12 +98,19 @@ class App extends Component {
 
 	}
 
+	_onRemove(el) {
+		const element_id = el.dataset.elementId;
+		if (element_id) {
+			this.refs.constructorZoneContainer.deleteElementById(element_id);
+		}
+	}
+
 	_onCancel(el) {
 		// this.setState({orders: this.ordersCopy})
 	}
 
 	initDragula() {
-		var drake = Dragula(this.state.dragula.container, this.state.dragula.options);
+		const drake = Dragula(this.state.dragula.container, this.state.dragula.options);
 
 		drake.on('drop', (el) => {
 			if (el.children[0].className !== 'variant-element-container') {
@@ -113,10 +120,15 @@ class App extends Component {
 			this.dragulaPushContainer(el)
 		});
 
-		drake.on("drop", function(el, target, source, sibling) {
+		drake.on("drop", (el, target, source, sibling) => {
 			drake.cancel(true)
 			this._onDrop(el, target, source, sibling)
-		}.bind(this))
+		})
+
+		drake.on('remove', (...args) => {
+			drake.cancel(true)
+			this._onRemove(...args);
+		})
 	}
 
 	dragulaPushContainer(container) {

@@ -48,6 +48,7 @@ export default class ConstructorZone extends Component {
 	}
 
 	moveElement(id, container_id, insert_before = undefined) {
+		console.log(arguments);
 		this.zoneStruct._moveElement(id, container_id, insert_before)
 		this.forceUpdateZone();
 	}
