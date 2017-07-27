@@ -21,6 +21,10 @@
 	transition: all .2s;
 }
 
+.variant-element__container.active {
+	border-color: hsla(0, 60%, 85%, 1);
+}
+
 .variant-element__container:hover {
 	opacity: 1;
 	background: hsla(0, 0%, 98%, 1);
@@ -31,6 +35,10 @@
 	border: 4px dashed hsla(0, 0%, 85%, 1);
 	padding: 1rem;
 	min-height: 4rem;
+}
+
+.constructor-drop-zone__container.active {
+	border-color: hsla(0, 60%, 85%, 1);
 }
 
 .constructor-zone__container .row.col-lg-12 {

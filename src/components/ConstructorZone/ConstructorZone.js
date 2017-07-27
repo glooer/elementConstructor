@@ -81,6 +81,9 @@ export default class ConstructorZone extends Component {
 		if (!element.component) {
 			return
 		}
+
+		element.is_active = element.id == this.state.currentElementInProps;
+
 		switch (element.component.name) {
 			case 'VariantElementText':
 				return <VariantElementText data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
@@ -94,13 +97,33 @@ export default class ConstructorZone extends Component {
 	}
 
 	setStateToPropertyObject(id) {
+		// пока такой костыль, это нужно что бы нельзя было удалить самый первый контейнер
+		if (id == 2) {
+			return;
+		}
+
 		let element = this.zoneStruct.getElementById(id)
+
+		if (!element) {
+			console.log(`элемент #{id} не найден`);
+		}
+
 		if (element.rows) {
 			this.props.onChangeCurrentRowForChangeProperty(element)
 		} else {
 			element.component.default_params = this.zoneStruct.getComponentObjectByName(element.component.name).getDefaultPropsList()
 			this.props.onChangeCurrentElementForChangeProperty(element)
 		}
+
+		this.setState(prevState => {
+			prevState.currentElementInProps = id;
+			return prevState;
+		})
+
+		// console.log(this.state);
+		// this.forceUpdateZone();
+		// this.currentElementInProps = id;
+		// this.forceUpdate();
 	}
 
 	dropZoneClickHander(event) {
@@ -124,8 +147,15 @@ export default class ConstructorZone extends Component {
 			components = [components];
 		}
 
+		let className = i ? "row constructor-drop-zone__container" : "";
+		if (i) {
+			if (i.split(/_/)[0] == this.state.currentElementInProps) {
+				className += ' active';
+			}
+		}
+
 		return (
-			<div data-element-id={ i } data-type="row" className={ i ? "row constructor-drop-zone__container" : null } ref={ i ? this.props.dragula : null } onClick={ this.dropZoneClickHander }>
+			<div data-element-id={ i } data-type="row" className={ className } ref={ i ? this.props.dragula : null } onClick={ this.dropZoneClickHander }>
 				{
 					components.map((row) => {
 						if (row.rows) {
@@ -150,7 +180,7 @@ export default class ConstructorZone extends Component {
 	render() {
 		return (
 			<div className="col-lg-8 constructor-zone__container">
-				<div className="1constructor-drop-zone__container">
+				<div>
 					{ this.variantElementContainerRender(this.getCurrentState()) }
 				</div>
 				<button onClick={ () => {

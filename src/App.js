@@ -37,11 +37,6 @@ class App extends Component {
 	}
 
 	onChangeCurrentRowForChangeProperty(obj) {
-		// пока такой костыль, это нужно что бы нельзя было удалить самый первый контейнер
-		if (obj.id == 2) {
-			return;
-		}
-
 		this.refs.constructorPropertyContainer.setNewProps({
 			id: obj.id,
 			classContainer: obj.classContainer,

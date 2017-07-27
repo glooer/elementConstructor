@@ -90,7 +90,6 @@ export default class ConstructorProperty extends Component {
 
 	render() {
 		let props = this.state.currentElementProps;
-		console.log(this.state);
 		if (!this.state.currentElementId) {
 			return (
 				<div className="col-lg-2">

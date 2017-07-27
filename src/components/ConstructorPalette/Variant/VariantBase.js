@@ -65,6 +65,7 @@ export default class Component extends React.Component {
 			prevState.data.classContainer = classContainer || 'col-lg-12'
 			prevState.data.id = id;
 			prevState.raw = this.props.data
+
 			return prevState;
 		})
 	}
@@ -92,7 +93,7 @@ export default class Component extends React.Component {
 	render() {
 		return (
 			<div key={ this.state.data.id } onClick={ this.setStateToPropertyObject } data-element-name={ this.constructor.name } data-element-id={ this.state.data.id } className={ this.state.data.classContainer }>
-				<div className="variant-element__container">
+				<div className={ "variant-element__container" + (this.deepGet(this.state, ['raw', 'is_active']) ? ' active' : '') }>
 					<div className={ this.classNameToCss() }>
 						{ this.renderElement() }
 					</div>
