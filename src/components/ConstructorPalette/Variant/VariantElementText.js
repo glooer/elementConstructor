@@ -11,14 +11,21 @@ export default class VariantElementText extends Component {
 			},
 			'fontSize': {
 				'name': 'размер шрифта',
-				'value': '10px'
+				'value': '1em'
+			},
+			'textAlign': {
+				'name': 'положение текста',
+				'value': 'left'
 			}
 		};
 	}
 
 	renderElement() {
 		return (
-			<div>
+			<div style={{
+				fontSize: this.deepGet(this.state, ['raw', 'component', 'params', 'fontSize'], '10px'), //this.state.raw.component.params.fontSize
+				textAlign: this.deepGet(this.state, ['raw', 'component', 'params', 'textAlign'], '10px'), //this.state.raw.component.params.fontSize
+			}}>
 				{ this.state.data.value }
 			</div>
 		);

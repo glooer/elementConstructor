@@ -9,14 +9,37 @@ export default class Component extends React.Component {
 		}
 
 		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
+		this.renderElement = this.renderElement.bind(this)
 	}
 
 	getPropsList() {
 		return null;
 	}
 
+	// http://adripofjavascript.com/blog/drips/making-deep-property-access-safe-in-javascript.html
+	deepGet(obj, props, defaultValue) {
+		// If we have reached an undefined/null property
+		// then stop executing and return the default value.
+		// If no default was provided it will be undefined.
+		if (obj === undefined || obj === null) {
+			return defaultValue;
+		}
+
+		// If the path array has no more elements, we've reached
+		// the intended property and return its value
+		if (props.length === 0) {
+			return obj;
+		}
+
+		// Prepare our found property and path array for recursion
+		var foundSoFar = obj[props[0]];
+		var remainingProps = props.slice(1);
+
+		return this.deepGet(foundSoFar, remainingProps, defaultValue);
+	}
 
 	componentWillReceiveProps() {
+		console.log(this.props.data);
 		let value, classContainer, id;
 		try {
 			value = this.props.data.component.params.text
@@ -28,7 +51,7 @@ export default class Component extends React.Component {
 			prevState.data.value = value
 			prevState.data.classContainer = classContainer || 'col-lg-12'
 			prevState.data.id = id;
-			
+			prevState.raw = this.props.data
 			return prevState;
 		})
 	}

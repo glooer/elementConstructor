@@ -7,7 +7,7 @@ export default class VariantElementImg extends Component {
 		return {
 			'src': {
 				'name': 'картинка',
-				'value': 'empty!'
+				'value': 'http://placehold.it/300x300'
 			},
 			'alt': {
 				'name': 'alt',
@@ -18,7 +18,7 @@ export default class VariantElementImg extends Component {
 
 	renderElement() {
 		return (
-			<img src={'/'} />
+			<img src={ this.deepGet(this.state, ['raw', 'component', 'params', 'src'], '/') } />
 		)
 	}
 }

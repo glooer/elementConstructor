@@ -3,10 +3,7 @@ export default class ConstructorZoneStructData {
 
 		return {
 			"classContainer": "col-lg-12",
-			"rows": [
-				[],
-				[],
-			]
+			"rows": []
 		}
 
 		return {

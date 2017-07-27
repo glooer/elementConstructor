@@ -30,7 +30,6 @@ export default class ConstructorZoneStruct {
 
 		zone.rows.splice(zone_offset, 1);
 		this._stateUpdateElementById(zone_id, zone);
-
 	}
 
 	insertComponentToRow(component, container_id, insert_before = undefined) {
