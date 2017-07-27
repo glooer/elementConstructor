@@ -3,6 +3,7 @@ import $ from 'jquery';
 import ZoneData from './ConstructorZoneStructData'
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
+import VariantElementHTML from '../ConstructorPalette/Variant/VariantElementHTML'
 import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
 
 export default class ConstructorZoneStruct {
@@ -257,6 +258,7 @@ export default class ConstructorZoneStruct {
 		return {
 			VariantElementText:				VariantElementText,
 			VariantElementImg:				VariantElementImg,
+			VariantElementHTML:				VariantElementHTML,
 			VariantElementContainer:	VariantElementContainer
 		}
 	}

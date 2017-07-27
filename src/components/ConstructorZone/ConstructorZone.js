@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ConstructorZoneStruct from './ConstructorZoneStruct';
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
+import VariantElementHTML from '../ConstructorPalette/Variant/VariantElementHTML'
 import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
 
 export default class ConstructorZone extends Component {
@@ -89,6 +90,8 @@ export default class ConstructorZone extends Component {
 				return <VariantElementText data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
 			case 'VariantElementImg':
 				return <VariantElementImg data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
+			case 'VariantElementHTML':
+				return <VariantElementHTML data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
 		}
 	}
 
