@@ -1,5 +1,6 @@
 
 import $ from 'jquery';
+import ZoneData from './ConstructorZoneStructData'
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
 import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
@@ -33,6 +34,15 @@ export default class ConstructorZoneStruct {
 	}
 
 	insertComponentToRow(component, container_id, insert_before = undefined) {
+
+		// если контейнера нет, то это корень
+		// по этому просто добавляем новый массив
+		// по нормальному так должна добавляться любая строка, но пока вот так.
+		// это плохо, но пока я не знаю как сделать лучше.
+		if (!container_id) {
+			this.state.data.rows.push([]);
+			return;
+		}
 		let row = this.getRowWithNewComponent(component, container_id, insert_before);
 		container_id = container_id.split(/_/)[0];
 
@@ -246,148 +256,7 @@ export default class ConstructorZoneStruct {
 
 	constructor() {
 		this.state = {
-			data: {
-				"classContainer": "col-lg-12",
-				"rows": [
-					[
-						{
-							"classContainer": "col-lg-2",
-							"component": {
-								"name": "VariantElementText",
-								"params": {
-									"text": "logo"
-								}
-							}
-						},
-						{
-							"classContainer": "col-lg-8",
-							"component": {
-									"name": "VariantElementText",
-									"params": {
-										"text": "search"
-									}
-							}
-						},
-						{
-							"classContainer": "col-lg-2",
-							"component": {
-									"name": "VariantElementText",
-									"params": {
-										"text": "phone"
-									}
-							}
-						},
-
-					],
-					[
-						{
-							"classContainer": "col-lg-12",
-							"component": {
-								"name": "VariantElementText",
-								"params": {
-									"text": "sections"
-								}
-							}
-						}
-					],
-					[
-						{
-							"classContainer": "col-lg-12",
-							"component": {
-								"name": "VariantElementText",
-								"params": {
-									"src": "https://placehold.it/200x200",
-									"text": "image"
-								}
-							}
-						}
-					],
-					[
-						{
-							"classContainer": "col-lg-4",
-							"rows": [
-								[
-									{
-										"classContainer": "col-lg-12",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "category"
-											}
-										}
-									},
-									{
-										"classContainer": "col-lg-12",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "news"
-											}
-										}
-									}
-								],
-
-							]
-						},
-						{
-							"classContainer": "col-lg-8",
-							"rows": [
-								[
-									{
-										"classContainer": "col-lg-6",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-									{
-										"classContainer": "col-lg-6",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-									{
-										"classContainer": "col-lg-6",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-								],
-								[
-									{
-										"id": "42",
-										"classContainer": "col-lg-8",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-									{
-										"id": "5234",
-										"classContainer": "col-lg-6",
-										"component": {
-											"name": "VariantElementText",
-											"params": {
-												"text": "products"
-											}
-										}
-									},
-								]
-							]
-						}
-					]
-				]
-			}
+			data: ZoneData.data
 		};
 
 		this.searchIterator = this.getMaxId(this.getStruct()) + 1 || 1;

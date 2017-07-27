@@ -107,23 +107,29 @@ export default class ConstructorZone extends Component {
 	}
 
 	variantElementContainerRender(components, i = null) {
+		if (!Array.isArray(components)) {
+			components = [components];
+		}
+
 		return (
 			<div data-element-id={ i } data-type="row" className="row constructor-drop-zone__container" ref={this.props.dragula} onClick={ this.dropZoneClickHander }>
-				{ components.map((row) => {
-					if (row.rows) {
-						return (
-							<div data-element-id={ row.id } data-type={ 'row' } className={ row.classContainer }>
-								{ row.rows.map((component, i) => {
-									return this.variantElementContainerRender(component, `${row.id}_${i}`);
-								}) }
-							</div>
-						)
-					}
+				{
+					components.map((row) => {
+						if (row.rows) {
+							return (
+								<div data-element-id={ row.id } data-type={ 'row' } className={ row.classContainer }>
+									{ row.rows.map((component, i) => {
+										return this.variantElementContainerRender(component, `${row.id}_${i}`);
+									}) }
+								</div>
+							)
+						}
 
-					if (row.component) {
-						return this.variantElementRender(row)
-					}
-				}) }
+						if (row.component) {
+							return this.variantElementRender(row)
+						}
+					})
+				}
 			</div>
 		)
 	}
@@ -131,8 +137,8 @@ export default class ConstructorZone extends Component {
 	render() {
 		return (
 			<div className="col-lg-8 constructor-zone__container">
-				<div className="constructor-drop-zone__container">
-					{ this.variantElementContainerRender([this.getCurrentState()]) }
+				<div className="1constructor-drop-zone__container">
+					{ this.variantElementContainerRender(this.getCurrentState()) }
 				</div>
 				<button onClick={ () => {
 					console.log(this.getCurrentState());
