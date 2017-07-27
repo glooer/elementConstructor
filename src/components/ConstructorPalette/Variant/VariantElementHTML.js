@@ -15,7 +15,7 @@ export default class VariantElementHTML extends Component {
 	}
 
 	renderUnsaveHTML() {
-		return {__html: this.deepGetParam('html')}
+		return { __html: this.deepGetParam('html') }
 	}
 
 	renderElement() {

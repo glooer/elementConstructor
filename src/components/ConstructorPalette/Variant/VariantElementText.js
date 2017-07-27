@@ -14,6 +14,10 @@ export default class VariantElementText extends Component {
 				'name': 'размер шрифта',
 				'value': '1em'
 			},
+			'style': {
+				'name': 'Стиль',
+				'value': 'color: red'
+			},
 			'textAlign': {
 				'name': 'положение текста',
 				'type': 'select',
@@ -25,12 +29,21 @@ export default class VariantElementText extends Component {
 		};
 	}
 
+	inlineStryleToObject(str) {
+		let res = {};
+		let regexp = /([\w-]+)\s*:\s*([^;]+)\s*;?/g
+		let iterator;
+		while (iterator = regexp.exec(str)) {
+			res[iterator[1]] = iterator[2];
+		}
+
+		return res;
+	}
+
 	renderElement() {
+		console.log(this.inlineStryleToObject(this.deepGetParam('style')));
 		return (
-			<div style={{
-				fontSize: this.deepGetParam('fontSize'), //this.state.raw.component.params.fontSize
-				textAlign: this.deepGetParam('textAlign'), //this.state.raw.component.params.fontSize
-			}}>
+			<div style={ this.inlineStryleToObject(this.deepGetParam('style')) }>
 				{ this.deepGetParam('text') }
 			</div>
 		);

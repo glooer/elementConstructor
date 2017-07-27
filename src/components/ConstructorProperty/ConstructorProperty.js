@@ -104,7 +104,6 @@ export default class ConstructorProperty extends Component {
 			);
 		}
 
-
 		return (
 			<div className="col-lg-2">
 				<h3>Текущий номер элемента: { this.state.currentElementId }</h3>
