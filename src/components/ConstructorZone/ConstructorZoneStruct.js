@@ -12,8 +12,24 @@ export default class ConstructorZoneStruct {
 	}
 
 	_createAndInsertElementToRow(element_name, container_id, insert_before) {
+		// если контейнера нет, то это корень
+		// если это сам контейнер, то добавляем, иначе нет
+		// по этому просто добавляем новый массив
+		// по нормальному так должна добавляться любая строка, но пока вот так.
+		// это плохо, но пока я не знаю как сделать лучше.
+		if (!container_id) {
+			if (element_name === 'VariantElementContainer') {
+				this.state.data.rows.push([]);
+			} else {
+				// по идее нужно оборачивать элемент в контейнер и добавлять его
+				// но пока так.
+			}
+			return;
+		}
 		let new_component = this.getNewComponent(element_name);
 		this.insertComponentToRow(new_component, container_id, insert_before)
+
+		return new_component.id
 	}
 
 	deleteZoneById(zone_id) {
@@ -34,14 +50,6 @@ export default class ConstructorZoneStruct {
 
 	insertComponentToRow(component, container_id, insert_before = undefined) {
 
-		// если контейнера нет, то это корень
-		// по этому просто добавляем новый массив
-		// по нормальному так должна добавляться любая строка, но пока вот так.
-		// это плохо, но пока я не знаю как сделать лучше.
-		if (!container_id) {
-			this.state.data.rows.push([]);
-			return;
-		}
 		let row = this.getRowWithNewComponent(component, container_id, insert_before);
 		container_id = container_id.split(/_/)[0];
 
@@ -95,11 +103,16 @@ export default class ConstructorZoneStruct {
 			element.classContainer = props['classContainer'];
 		}
 
-		Object.keys(element.component.params).forEach(key => {
-			if (props[key] !== undefined) {
-				element.component.params[key] = props[key]
-			}
-		})
+
+		if (element.component) {
+			Object.keys(element.component.params).forEach(key => {
+				if (props[key] !== undefined) {
+					element.component.params[key] = props[key]
+				}
+			})
+		}
+
+
 
 		this._stateUpdateElementById(id, element)
 	}

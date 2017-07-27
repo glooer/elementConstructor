@@ -36,10 +36,15 @@ class App extends Component {
 		this.refs.constructorPropertyContainer.setNewProps(obj);
 	}
 
-	onChangeCurrentRowForChangeProperty(id) {
+	onChangeCurrentRowForChangeProperty(obj) {
+		// пока такой костыль, это нужно что бы нельзя было удалить самый первый контейнер
+		if (obj.id == 2) {
+			return;
+		}
+
 		this.refs.constructorPropertyContainer.setNewProps({
-			id: id,
-			classContainer: '',
+			id: obj.id,
+			classContainer: obj.classContainer,
 			isRow: true,
 			component: {
 				params: {}
@@ -91,11 +96,14 @@ class App extends Component {
 
 
 		if (is_new_element) {
-			this.refs.constructorZoneContainer.createAndInsertElementToRow(element_name, container_id, insertBefore)
+			element_id = this.refs.constructorZoneContainer.createAndInsertElementToRow(element_name, container_id, insertBefore)
+
 		} else {
 			this.refs.constructorZoneContainer.moveElement(element_id, container_id, insertBefore)
 		}
 
+
+		this.refs.constructorZoneContainer.setStateToPropertyObject(element_id)
 	}
 
 	_onRemove(el) {

@@ -7,12 +7,8 @@ export default class ConstructorProperty extends Component {
 
 		this.state = {
 			isRow: false,
-			currentElementId: 123,
-			currentElementProps: {
-				'text': '123',
-				'col': 'reqw',
-				'src': 'https://placehold.it/200x200'
-			}
+			currentElementId: null,
+			currentElementProps: {}
 		}
 
 		this.saveProps = this.saveProps.bind(this)
@@ -42,17 +38,9 @@ export default class ConstructorProperty extends Component {
 			let params = obj.component.params;
 			params['classContainer'] = obj.classContainer;
 			prevState.currentElementProps = params;
+			prevState.default_params = obj.component.default_params;
 			return prevState;
 		});
-	}
-
-	renderInputGroup(key, value, name = key) {
-		return (
-			<div className="form-group">
-				<label>{ name }</label>
-				<input type="text" data-element-props-key={ key } className="form-control" onChange={ this.handleChange } value={ value } />
-			</div>
-		)
 	}
 
 	saveProps() {
@@ -66,25 +54,50 @@ export default class ConstructorProperty extends Component {
 		this.props.onDeleteElementProps(this.state.currentElementId);
 	}
 
+	renderInputGroup(args) {
+		return (
+			<div className="form-group">
+				<label>{ args.name || args.key }</label>
+				<input type="text" data-element-props-key={ args.key } className="form-control" onChange={ this.handleChange } value={ args.value } />
+			</div>
+		)
+	}
+
+	getInputElement(args) {
+		if (args.type === 'select') {
+			return (
+				<select data-element-props-key={ args.key } className="form-control" onChange={ this.handleChange } >
+					{ args.defaultValue.map((val, i) => (
+						<option>{ val }</option>
+					)) }
+				</select>
+			)
+		}
+
+		return (
+			<input type="text" data-element-props-key={ args.key } className="form-control" onChange={ this.handleChange } value={ args.value } />
+		)
+	}
+
+	renderInputElement(args) {
+		return (
+			<div className="form-group">
+				<label>{ args.name || args.key }</label>
+				{ this.getInputElement(args) }
+			</div>
+		)
+	}
+
 	render() {
 		let props = this.state.currentElementProps
-
 		if (!this.state.currentElementId) {
 			return (
-				<h3>Элемент не выбран</h3>
+				<div className="col-lg-2">
+					<h3>Элемент не выбран</h3>
+				</div>
 			);
 		}
 
-		if (this.state.isRow) {
-			return (
-				<div className="col-lg-2">
-					<h3>Текущий номер контейнера: { this.state.currentElementId }</h3>
-					<div className="form-group">
-						<button className="btn btn-danger" onClick={ this.deleteElement }>Удалить</button>
-					</div>
-				</div>
-			)
-		}
 
 		return (
 			<div className="col-lg-2">
@@ -92,8 +105,11 @@ export default class ConstructorProperty extends Component {
 				<div>
 					{
 						Object.keys(props).map(key => {
-							let value = props[key]
-							return this.renderInputGroup(key, value);
+							let obj = this.state.default_params[key] || {};
+							obj.key = key;
+							obj.value = props[key];
+
+							return this.renderInputElement(obj);
 						})
 					}
 				</div>

@@ -7,7 +7,8 @@ export default class VariantElementText extends Component {
 		return {
 			'text': {
 				'name': 'текст',
-				'value': 'Simple Text'
+				'value': 'Simple Text',
+				'defaultValue': 'Simple Text'
 			},
 			'fontSize': {
 				'name': 'размер шрифта',
@@ -15,7 +16,11 @@ export default class VariantElementText extends Component {
 			},
 			'textAlign': {
 				'name': 'положение текста',
-				'value': 'left'
+				'type': 'select',
+				'value': '',
+				'defaultValue': [
+					'left', 'center', 'right'
+				]
 			}
 		};
 	}
@@ -23,10 +28,10 @@ export default class VariantElementText extends Component {
 	renderElement() {
 		return (
 			<div style={{
-				fontSize: this.deepGet(this.state, ['raw', 'component', 'params', 'fontSize'], '10px'), //this.state.raw.component.params.fontSize
-				textAlign: this.deepGet(this.state, ['raw', 'component', 'params', 'textAlign'], '10px'), //this.state.raw.component.params.fontSize
+				fontSize: this.deepGetParam('fontSize'), //this.state.raw.component.params.fontSize
+				textAlign: this.deepGetParam('textAlign'), //this.state.raw.component.params.fontSize
 			}}>
-				{ this.state.data.value }
+				{ this.deepGetParam('text') }
 			</div>
 		);
 	}

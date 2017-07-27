@@ -12,17 +12,31 @@ export default class Component extends React.Component {
 		this.renderElement = this.renderElement.bind(this)
 	}
 
+	getDefaultPropsList() {
+		return this.getPropsList();
+	}
+
 	getPropsList() {
-		return null;
+		return {};
+	}
+
+	deepGetParam(param_name, default_value = null) {
+		// довольно дорогая операция поиска значения по умолчанию, если что отключай его первой
+		// по сути нужна что бы красиво устанавливать значения по умолчанию.
+		if (!default_value) {
+			default_value = this.getPropsList()[param_name].defaultValue;
+		}
+
+		return this.deepGet(this.state, ['raw', 'component', 'params', param_name], default_value);
 	}
 
 	// http://adripofjavascript.com/blog/drips/making-deep-property-access-safe-in-javascript.html
-	deepGet(obj, props, defaultValue) {
+	deepGet(obj, props, default_value) {
 		// If we have reached an undefined/null property
 		// then stop executing and return the default value.
 		// If no default was provided it will be undefined.
 		if (obj === undefined || obj === null) {
-			return defaultValue;
+			return default_value;
 		}
 
 		// If the path array has no more elements, we've reached
@@ -35,11 +49,10 @@ export default class Component extends React.Component {
 		var foundSoFar = obj[props[0]];
 		var remainingProps = props.slice(1);
 
-		return this.deepGet(foundSoFar, remainingProps, defaultValue);
+		return this.deepGet(foundSoFar, remainingProps, default_value);
 	}
 
 	componentWillReceiveProps() {
-		console.log(this.props.data);
 		let value, classContainer, id;
 		try {
 			value = this.props.data.component.params.text

@@ -48,7 +48,6 @@ export default class ConstructorZone extends Component {
 	}
 
 	moveElement(id, container_id, insert_before = undefined) {
-		console.log(arguments);
 		this.zoneStruct._moveElement(id, container_id, insert_before)
 		this.forceUpdateZone();
 	}
@@ -63,8 +62,10 @@ export default class ConstructorZone extends Component {
 	}
 
 	createAndInsertElementToRow(element_name, container_id, insert_before = undefined) {
-		this.zoneStruct._createAndInsertElementToRow(element_name, container_id, insert_before)
+		let new_id = this.zoneStruct._createAndInsertElementToRow(element_name, container_id, insert_before)
 		this.forceUpdateZone();
+
+		return new_id;
 	}
 
 	updatePropsById(id, props) {
@@ -74,11 +75,6 @@ export default class ConstructorZone extends Component {
 
 	click() {
 		console.log(this.state);
-	}
-
-	setStateToPropertyObject(id) {
-		let element = this.zoneStruct.getElementById(id)
-		this.props.onChangeCurrentElementForChangeProperty(element)
 	}
 
 	variantElementFactory(element) {
@@ -97,13 +93,30 @@ export default class ConstructorZone extends Component {
 		return this.variantElementFactory(component) ;
 	}
 
+	setStateToPropertyObject(id) {
+		let element = this.zoneStruct.getElementById(id)
+		if (element.rows) {
+			this.props.onChangeCurrentRowForChangeProperty(element)
+		} else {
+			element.component.default_params = this.zoneStruct.getComponentObjectByName(element.component.name).getDefaultPropsList()
+			this.props.onChangeCurrentElementForChangeProperty(element)
+		}
+	}
+
 	dropZoneClickHander(event) {
 		if (event.currentTarget != event.target) {
 			return;
 		}
 
 		let id = event.target.dataset.elementId;
-		this.props.onChangeCurrentRowForChangeProperty(id)
+
+		if (!id) {
+			return;
+		}
+
+		let offset;
+		[id, offset] = id.toString().split(/_/);
+		this.setStateToPropertyObject(id)
 	}
 
 	variantElementContainerRender(components, i = null) {
@@ -112,7 +125,7 @@ export default class ConstructorZone extends Component {
 		}
 
 		return (
-			<div data-element-id={ i } data-type="row" className="row constructor-drop-zone__container" ref={this.props.dragula} onClick={ this.dropZoneClickHander }>
+			<div data-element-id={ i } data-type="row" className={ i ? "row constructor-drop-zone__container" : null } ref={ i ? this.props.dragula : null } onClick={ this.dropZoneClickHander }>
 				{
 					components.map((row) => {
 						if (row.rows) {
@@ -143,9 +156,6 @@ export default class ConstructorZone extends Component {
 				<button onClick={ () => {
 					console.log(this.getCurrentState());
 				} }>тест!</button>
-				<button onClick={ () => {
-					this.deleteZoneById("5235_0")
-				} }>deleteZone</button>
 			</div>
 		)
 	}
