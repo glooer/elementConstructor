@@ -25,10 +25,13 @@ export default class ConstructorZone extends Component {
 			return prevState;
 		})
 
+		// а ещё сохраним всё что наделали в localStorege
+
 		// почему то состояние не обновляется сразу, точнее само состояние обновляется но дом нет.
 		// в чем проблема я не знаю,
 		// возможно если знать рекат по лучше это очевидно, но не сейчас
 		setTimeout(() => {
+			localStorage.setItem('templaterZone', JSON.stringify(this.state.zone));
 			this.forceUpdate()
 		}, 0)
 	}
@@ -97,6 +100,11 @@ export default class ConstructorZone extends Component {
 
 	variantElementRender(component) {
 		return this.variantElementFactory(component) ;
+	}
+
+	clearZone() {
+		this.zoneStruct.clearState();
+		this.forceUpdateZone();
 	}
 
 	setStateToPropertyObject(id) {
@@ -189,6 +197,9 @@ export default class ConstructorZone extends Component {
 				<button onClick={ () => {
 					console.log(this.getCurrentState());
 				} }>тест!</button>
+				<button onClick={ () => {
+					this.clearZone()
+				} }>очистить</button>
 			</div>
 		)
 	}

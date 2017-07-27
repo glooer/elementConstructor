@@ -4,6 +4,8 @@ import ZoneData from './ConstructorZoneStructData'
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
 import VariantElementHTML from '../ConstructorPalette/Variant/VariantElementHTML'
+import VariantElementInput from '../ConstructorPalette/Variant/VariantElementInput'
+import VariantElementButton from '../ConstructorPalette/Variant/VariantElementButton'
 import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
 
 export default class ConstructorZoneStruct {
@@ -259,6 +261,8 @@ export default class ConstructorZoneStruct {
 			VariantElementText:				VariantElementText,
 			VariantElementImg:				VariantElementImg,
 			VariantElementHTML:				VariantElementHTML,
+			VariantElementInput:			VariantElementInput,
+			VariantElementButton:			VariantElementButton,
 			VariantElementContainer:	VariantElementContainer
 		}
 	}
@@ -268,12 +272,21 @@ export default class ConstructorZoneStruct {
 		return new componentList[element_name];
 	}
 
+	clearState() {
+		this.state.data = ZoneData.data;
+	}
+
 	constructor() {
 		this.state = {
 			data: ZoneData.data
-		};
+		}
+
+		if (localStorage.getItem('templaterZone')) {
+			this.state.data = JSON.parse(localStorage.getItem('templaterZone'));
+		}
 
 		this.searchIterator = this.getMaxId(this.getStruct()) + 1 || 1;
+		this.clearState = this.clearState.bind(this)
 	}
 
 

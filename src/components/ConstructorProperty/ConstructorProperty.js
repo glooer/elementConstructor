@@ -76,7 +76,7 @@ export default class ConstructorProperty extends Component {
 
 		if (args.type === 'textarea') {
 			return (
-				<textarea data-element-props-key={ args.key } className="form-control" onChange={ this.handleChange }>{ args.value }</textarea>
+				<textarea data-element-props-key={ args.key } className="form-control" onChange={ this.handleChange } value={ args.value }></textarea>
 			)
 		}
 

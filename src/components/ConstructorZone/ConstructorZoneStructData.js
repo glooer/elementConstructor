@@ -1,6 +1,5 @@
 export default class ConstructorZoneStructData {
 	static get data() {
-
 		return {
 			"id": '1',
 			"classContainer": "col-lg-12",

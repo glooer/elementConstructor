@@ -16,7 +16,7 @@ export default class VariantElementText extends Component {
 			},
 			'style': {
 				'name': 'Стиль',
-				'value': 'color: red'
+				'value': ''
 			},
 			'textAlign': {
 				'name': 'положение текста',
@@ -41,7 +41,6 @@ export default class VariantElementText extends Component {
 	}
 
 	renderElement() {
-		console.log(this.inlineStryleToObject(this.deepGetParam('style')));
 		return (
 			<div style={ this.inlineStryleToObject(this.deepGetParam('style')) }>
 				{ this.deepGetParam('text') }

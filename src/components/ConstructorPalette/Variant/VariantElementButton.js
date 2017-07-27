@@ -8,6 +8,16 @@ export default class VariantElementButton extends Component {
 		this.testHandels = this.testHandels.bind(this)
 	}
 
+	getPropsList() {
+		return {
+			'text': {
+				'name': 'текст',
+				'value': 'Simple Text',
+				'defaultValue': 'Simple Text'
+			},
+		};
+	}
+
 	testHandels() {
 		this.setState(prevState => ({
 			value: Math.random()

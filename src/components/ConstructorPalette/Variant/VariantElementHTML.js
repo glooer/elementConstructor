@@ -20,8 +20,7 @@ export default class VariantElementHTML extends Component {
 
 	renderElement() {
 		return (
-			<div dangerouslySetInnerHTML={ this.renderUnsaveHTML() }>
-			</div>
+			<div dangerouslySetInnerHTML={ this.renderUnsaveHTML() }></div>
 		);
 	}
 }
