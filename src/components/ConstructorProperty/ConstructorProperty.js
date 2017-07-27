@@ -89,7 +89,8 @@ export default class ConstructorProperty extends Component {
 	}
 
 	render() {
-		let props = this.state.currentElementProps
+		let props = this.state.currentElementProps;
+		console.log(this.state);
 		if (!this.state.currentElementId) {
 			return (
 				<div className="col-lg-2">
@@ -105,7 +106,7 @@ export default class ConstructorProperty extends Component {
 				<div>
 					{
 						Object.keys(props).map(key => {
-							let obj = this.state.default_params[key] || {};
+							let obj = (this.state.default_params && this.state.default_params[key]) || {};
 							obj.key = key;
 							obj.value = props[key];
 
