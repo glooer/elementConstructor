@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import $ from 'jquery';
+import $ from 'jquery';
 import ConstructorZoneStruct from './ConstructorZoneStruct';
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
@@ -200,6 +200,10 @@ export default class ConstructorZone extends Component {
 				<button onClick={ () => {
 					this.clearZone()
 				} }>очистить</button>
+				<button onClick={ () => {
+					$('.constructor__container').toggleClass('preview');
+				} }>предпросмотр</button>
+
 			</div>
 		)
 	}

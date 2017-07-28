@@ -10,10 +10,6 @@ export default class VariantElementText extends Component {
 				'value': 'Simple Text',
 				'defaultValue': 'Simple Text'
 			},
-			'fontSize': {
-				'name': 'размер шрифта',
-				'value': '1em'
-			},
 			'style': {
 				'name': 'Стиль',
 				'value': ''
