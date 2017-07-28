@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import RichInputList from './RichInputList'
 
 export default class ConstructorProperty extends Component {
 
@@ -93,16 +94,13 @@ export default class ConstructorProperty extends Component {
 		this.props.onDeleteElementProps(this.state.currentElementId);
 	}
 
-	renderInputGroup(args) {
-		return (
-			<div className="form-group">
-				<label>{ args.name || args.key }</label>
-				<input type="text" data-element-props-key={ args.key } className="form-control" onChange={ this.handleChange } value={ args.value } />
-			</div>
-		)
-	}
-
 	getInputElement(args) {
+		if (args.type === 'json_list') {
+			return (
+				<RichInputList data-element-props-key={ args.key } safeData={ args.value } onChange={ this.handleChange }/>
+			);
+		}
+
 		if (args.type === 'select') {
 
 			// значения по умолчанию могут быть как объектом так и массивом
@@ -118,7 +116,7 @@ export default class ConstructorProperty extends Component {
 			return (
 				<select value={ args.value } data-element-props-key={ args.key } className="form-control" onChange={ this.handleChange } >
 					{ Object.keys(args.defaultValue).map(val => (
-						<option  value={ val }>{ args.defaultValue[val] }</option>
+						<option value={ val }>{ args.defaultValue[val] }</option>
 					)) }
 				</select>
 			)

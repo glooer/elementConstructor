@@ -6,6 +6,8 @@ import VariantElementText from './Variant/VariantElementText'
 import VariantElementImg from './Variant/VariantElementImg'
 import VariantElementButton from './Variant/VariantElementButton'
 import VariantElementHTML from './Variant/VariantElementHTML'
+import ObjectVariantElementMenu from './Variant/ObjectVariantElementMenu'
+import ObjectVariantElementSearch from './Variant/ObjectVariantElementSearch'
 
 
 export default class ConstructorPalette extends Component {
@@ -23,6 +25,8 @@ export default class ConstructorPalette extends Component {
 						<VariantElementImg />
 						<VariantElementButton />
 						<VariantElementHTML />
+						<ObjectVariantElementMenu />
+						<ObjectVariantElementSearch />
 					</div>
 				</div>
 			</div>

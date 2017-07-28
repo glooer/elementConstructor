@@ -15,6 +15,11 @@ export default class Component extends React.Component {
 
 	getCommonPropsList() {
 		return {
+			'style': {
+				'name': 'Стиль',
+				'type': 'textarea',
+				'value': ''
+			},
 			'col-lg': {
 				'name': 'Large devices Desktops (≥1200px)',
 				'type': 'select',
@@ -109,8 +114,9 @@ export default class Component extends React.Component {
 	deepGetParam(param_name, default_value = null) {
 		// довольно дорогая операция поиска значения по умолчанию, если что отключай его первой
 		// по сути нужна что бы красиво устанавливать значения по умолчанию.
+
 		if (!default_value) {
-			default_value = this.getPropsList()[param_name].defaultValue;
+			default_value = this.getDefaultPropsList()[param_name].defaultValue;
 		}
 
 		return this.deepGet(this.state, ['raw', 'component', 'params', param_name], default_value);

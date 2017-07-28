@@ -7,6 +7,8 @@ import VariantElementHTML from '../ConstructorPalette/Variant/VariantElementHTML
 import VariantElementInput from '../ConstructorPalette/Variant/VariantElementInput'
 import VariantElementButton from '../ConstructorPalette/Variant/VariantElementButton'
 import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
+import ObjectVariantElementMenu from '../ConstructorPalette/Variant/ObjectVariantElementMenu'
+import ObjectVariantElementSearch from '../ConstructorPalette/Variant/ObjectVariantElementSearch'
 
 export default class ConstructorZoneStruct {
 
@@ -268,12 +270,14 @@ export default class ConstructorZoneStruct {
 
 	componentList() {
 		return {
-			VariantElementText:				VariantElementText,
-			VariantElementImg:				VariantElementImg,
-			VariantElementHTML:				VariantElementHTML,
-			VariantElementInput:			VariantElementInput,
-			VariantElementButton:			VariantElementButton,
-			VariantElementContainer:	VariantElementContainer
+			VariantElementText:					VariantElementText,
+			VariantElementImg:					VariantElementImg,
+			VariantElementHTML:					VariantElementHTML,
+			VariantElementInput:				VariantElementInput,
+			VariantElementButton:				VariantElementButton,
+			VariantElementContainer:		VariantElementContainer,
+			ObjectVariantElementMenu:		ObjectVariantElementMenu,
+			ObjectVariantElementSearch:	ObjectVariantElementSearch
 		}
 	}
 

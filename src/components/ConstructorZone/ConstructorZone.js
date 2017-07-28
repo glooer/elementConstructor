@@ -8,6 +8,8 @@ import VariantElementHTML from '../ConstructorPalette/Variant/VariantElementHTML
 import VariantElementInput from '../ConstructorPalette/Variant/VariantElementInput'
 import VariantElementButton from '../ConstructorPalette/Variant/VariantElementButton'
 import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
+import ObjectVariantElementMenu from '../ConstructorPalette/Variant/ObjectVariantElementMenu'
+import ObjectVariantElementSearch from '../ConstructorPalette/Variant/ObjectVariantElementSearch'
 
 export default class ConstructorZone extends Component {
 
@@ -101,6 +103,10 @@ export default class ConstructorZone extends Component {
 				return <VariantElementButton data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
 			case 'VariantElementInput':
 				return <VariantElementInput data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
+			case 'ObjectVariantElementMenu':
+				return <ObjectVariantElementMenu data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
+			case 'ObjectVariantElementSearch':
+				return <ObjectVariantElementSearch data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
 		}
 	}
 
