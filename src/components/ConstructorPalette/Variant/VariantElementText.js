@@ -12,6 +12,7 @@ export default class VariantElementText extends Component {
 			},
 			'style': {
 				'name': 'Стиль',
+				'type': 'textarea',
 				'value': ''
 			},
 			'textAlign': {
@@ -25,20 +26,9 @@ export default class VariantElementText extends Component {
 		};
 	}
 
-	inlineStryleToObject(str) {
-		let res = {};
-		let regexp = /([\w-]+)\s*:\s*([^;]+)\s*;?/g
-		let iterator;
-		while (iterator = regexp.exec(str)) {
-			res[iterator[1]] = iterator[2];
-		}
-
-		return res;
-	}
-
 	renderElement() {
 		return (
-			<div style={ this.inlineStryleToObject(this.deepGetParam('style')) }>
+			<div style={ this.inlineStyleToObject(this.deepGetParam('style')) }>
 				{ this.deepGetParam('text') }
 			</div>
 		);

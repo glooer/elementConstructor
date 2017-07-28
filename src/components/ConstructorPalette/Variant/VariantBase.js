@@ -1,4 +1,5 @@
 import React from 'react';
+import HelperCss from '../../../helpers/css';
 
 export default class Component extends React.Component {
 	constructor(props) {
@@ -12,8 +13,93 @@ export default class Component extends React.Component {
 		this.renderElement = this.renderElement.bind(this)
 	}
 
+	getCommonPropsList() {
+		return {
+			'col-lg': {
+				'name': 'Large devices Desktops (≥1200px)',
+				'type': 'select',
+				'value': 'col-xs-12',
+				'defaultValue': {
+					'col-lg-1': '1/12',
+					'col-lg-2': '2/12',
+					'col-lg-3': '3/12',
+					'col-lg-4': '4/12',
+					'col-lg-5': '5/12',
+					'col-lg-6': '6/12',
+					'col-lg-7': '7/12',
+					'col-lg-8': '8/12',
+					'col-lg-9': '9/12',
+					'col-lg-10': '10/12',
+					'col-lg-11': '11/12',
+					'col-lg-12': '12/12',
+				}
+			},
+			'col-md': {
+				'name': 'Medium devices Desktops (≥992px)',
+				'type': 'select',
+				'value': 'col-xs-12',
+				'defaultValue': {
+					'col-md-1': '1/12',
+					'col-md-2': '2/12',
+					'col-md-3': '3/12',
+					'col-md-4': '4/12',
+					'col-md-5': '5/12',
+					'col-md-6': '6/12',
+					'col-md-7': '7/12',
+					'col-md-8': '8/12',
+					'col-md-9': '9/12',
+					'col-md-10': '10/12',
+					'col-md-11': '11/12',
+					'col-md-12': '12/12',
+				}
+			},
+			'col-sm': {
+				'name': 'Small devices Tablets (≥768px)',
+				'type': 'select',
+				'value': 'col-xs-12',
+				'defaultValue': {
+					'col-sm-1': '1/12',
+					'col-sm-2': '2/12',
+					'col-sm-3': '3/12',
+					'col-sm-4': '4/12',
+					'col-sm-5': '5/12',
+					'col-sm-6': '6/12',
+					'col-sm-7': '7/12',
+					'col-sm-8': '8/12',
+					'col-sm-9': '9/12',
+					'col-sm-10': '10/12',
+					'col-sm-11': '11/12',
+					'col-sm-12': '12/12',
+				}
+			},
+			'col-xs': {
+				'name': 'Extra small devices Phones (<768px)',
+				'type': 'select',
+				'value': 'col-xs-12',
+				'defaultValue': {
+					'col-xs-1': '1/12',
+					'col-xs-2': '2/12',
+					'col-xs-3': '3/12',
+					'col-xs-4': '4/12',
+					'col-xs-5': '5/12',
+					'col-xs-6': '6/12',
+					'col-xs-7': '7/12',
+					'col-xs-8': '8/12',
+					'col-xs-9': '9/12',
+					'col-xs-10': '10/12',
+					'col-xs-11': '11/12',
+					'col-xs-12': '12/12',
+				}
+			}
+		}
+	}
+
 	getDefaultPropsList() {
-		return this.getPropsList();
+		return Object.assign({}, this.getCommonPropsList(), this.getPropsList());
+	}
+
+	getStructElement() {
+		return null;
 	}
 
 	getPropsList() {
@@ -73,6 +159,10 @@ export default class Component extends React.Component {
 	// если ты дурачок и не соблюдаешь соглашение о именовании классов (они всегда должны быть с большой буквы) то сорян.
 	classNameToCss() {
 		return this.constructor.name.replace(/[A-Z]/g, v => '-' + v.toLowerCase()).slice(1)
+	}
+
+	inlineStyleToObject(style) {
+		return HelperCss.inlineStyleToObject(style)
 	}
 
 	renderElement() {

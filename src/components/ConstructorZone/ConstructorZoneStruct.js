@@ -107,6 +107,12 @@ export default class ConstructorZoneStruct {
 		}
 
 
+		// если так, то это контейнер, укажем ему стиль
+		// TODO: возможно потом нужно будет и контейнерам с элементами такое указывать
+		if (props['styleContainer']) {
+			element.styleContainer = props['styleContainer']
+		}
+
 		if (element.component) {
 			Object.keys(element.component.params).forEach(key => {
 				if (props[key] !== undefined) {
@@ -114,8 +120,6 @@ export default class ConstructorZoneStruct {
 				}
 			})
 		}
-
-
 
 		this._stateUpdateElementById(id, element)
 	}
@@ -194,26 +198,32 @@ export default class ConstructorZoneStruct {
 		return element;
 	}
 
-	getNewRow() {
-		return {
-			id: this.getNextIteratorId(),
-			classContainer: 'col-lg-12',
-			rows: [
-				[]
-			]
-		};
-	}
+	// getNewRow() {
+	//
+	// }
 
 	getNewComponent(element_name) {
 		// создаем компонент,
 		// т.к. создавать приходиться по названию, то выше есть объект перечисляющий названия.
 
+
+		// if (element_name == 'VariantElementContainer') {
+		// 	return this.getNewRow();
+		// }
+
+		let element = this.getComponentObjectByName(element_name);
+
 		// если компонент это контейнер, то у него немного другая страктура
-		if (element_name == 'VariantElementContainer') {
-			return this.getNewRow();
+		// в принципе теперь любой элемент может вернуть свою структуру, нужно к примеру для компонентов которые включают в себя другие компоненты
+		// TODO: обходить всю структуру и расставлять идшники, ибо элементы могут быть вложенные.
+
+		let element_struct = element.getStructElement()
+		if (element_struct) {
+			element_struct.id = this.getNextIteratorId()
+			return element_struct;
 		}
 
-		let element_params = this.getComponentObjectByName(element_name).getPropsList();
+		let element_params = element.getPropsList();
 
 		for (var item in element_params) {
 			element_params[item] = element_params[item].value;
@@ -281,7 +291,7 @@ export default class ConstructorZoneStruct {
 			data: ZoneData.data
 		}
 
-		if (localStorage.getItem('templaterZone')) {
+		if (localStorage.getItem('templaterZone') && localStorage.getItem('templaterZone') != 'null') {
 			this.state.data = JSON.parse(localStorage.getItem('templaterZone'));
 		}
 

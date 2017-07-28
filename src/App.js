@@ -42,7 +42,10 @@ class App extends Component {
 			classContainer: obj.classContainer,
 			isRow: true,
 			component: {
-				params: {}
+				default_params: obj.default_params,
+				params: {
+					styleContainer: obj.styleContainer
+				}
 			}
 		});
 	}
@@ -92,7 +95,6 @@ class App extends Component {
 
 		if (is_new_element) {
 			element_id = this.refs.constructorZoneContainer.createAndInsertElementToRow(element_name, container_id, insertBefore)
-
 		} else {
 			this.refs.constructorZoneContainer.moveElement(element_id, container_id, insertBefore)
 		}

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import HelperCss from '../../helpers/css';
 import ConstructorZoneStruct from './ConstructorZoneStruct';
 import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
 import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
 import VariantElementHTML from '../ConstructorPalette/Variant/VariantElementHTML'
+import VariantElementInput from '../ConstructorPalette/Variant/VariantElementInput'
+import VariantElementButton from '../ConstructorPalette/Variant/VariantElementButton'
 import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
 
 export default class ConstructorZone extends Component {
@@ -25,12 +28,11 @@ export default class ConstructorZone extends Component {
 			return prevState;
 		})
 
-		// а ещё сохраним всё что наделали в localStorege
-
 		// почему то состояние не обновляется сразу, точнее само состояние обновляется но дом нет.
 		// в чем проблема я не знаю,
 		// возможно если знать рекат по лучше это очевидно, но не сейчас
 		setTimeout(() => {
+			// а ещё сохраним всё что наделали в localStorege
 			localStorage.setItem('templaterZone', JSON.stringify(this.state.zone));
 			this.forceUpdate()
 		}, 0)
@@ -95,6 +97,10 @@ export default class ConstructorZone extends Component {
 				return <VariantElementImg data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
 			case 'VariantElementHTML':
 				return <VariantElementHTML data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
+			case 'VariantElementButton':
+				return <VariantElementButton data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
+			case 'VariantElementInput':
+				return <VariantElementInput data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
 		}
 	}
 
@@ -120,6 +126,7 @@ export default class ConstructorZone extends Component {
 		}
 
 		if (element.rows) {
+			element.default_params = this.zoneStruct.getComponentObjectByName('VariantElementContainer').getDefaultPropsList();
 			this.props.onChangeCurrentRowForChangeProperty(element)
 		} else {
 			element.component.default_params = this.zoneStruct.getComponentObjectByName(element.component.name).getDefaultPropsList()
@@ -153,7 +160,7 @@ export default class ConstructorZone extends Component {
 		this.setStateToPropertyObject(id)
 	}
 
-	variantElementContainerRender(components, i = null) {
+	variantElementContainerRender(components, i = null, style = "") {
 		if (!Array.isArray(components)) {
 			components = [components];
 		}
@@ -166,14 +173,14 @@ export default class ConstructorZone extends Component {
 		}
 
 		return (
-			<div data-element-id={ i } data-type="row" className={ className } ref={ i ? this.props.dragula : null } onClick={ this.dropZoneClickHander }>
+			<div data-element-id={ i } data-type="row" style={ HelperCss.inlineStyleToObject(style) } className={ className } ref={ i ? this.props.dragula : null } onClick={ this.dropZoneClickHander }>
 				{
 					components.map((row) => {
 						if (row.rows) {
 							return (
 								<div data-element-id={ row.id } data-type={ 'row' } className={ row.classContainer }>
 									{ row.rows.map((component, i) => {
-										return this.variantElementContainerRender(component, `${row.id}_${i}`);
+										return this.variantElementContainerRender(component, `${row.id}_${i}`, row.styleContainer);
 									}) }
 								</div>
 							)

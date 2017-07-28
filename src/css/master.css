@@ -13,6 +13,17 @@
 	padding: 1rem;
 }
 
+.constructor-propertys__container textarea[data-element-props-key="style"],
+.constructor-propertys__container textarea[data-element-props-key="html"] {
+	transition: all .3s;
+	height: 6rem;
+}
+
+.constructor-propertys__container textarea[data-element-props-key="style"]:focus,
+.constructor-propertys__container textarea[data-element-props-key="html"]:focus {
+	height: 25rem;
+}
+
 .variant-element__container {
 	padding: 1rem;
 	border: 4px dashed hsla(0, 0%, 85%, 1);
@@ -33,7 +44,7 @@
 
 .constructor-drop-zone__container {
 	border: 4px dashed hsla(0, 0%, 85%, 1);
-	padding: 1rem;
+	padding: 1rem 0;
 	min-height: 4rem;
 }
 
@@ -60,7 +71,7 @@
 .constructor__container.preview .constructor-zone__container [data-type="row"] {
 	padding-left: initial;
 	padding-right: initial;
-	margin-bottom: initial;
+	/*margin-bottom: initial;*/
 }
 
 .constructor__container.preview .constructor-zone__container .variant-element__container {
