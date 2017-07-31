@@ -122,6 +122,10 @@ export default class Component extends React.Component {
 		return this.deepGet(this.state, ['raw', 'component', 'params', param_name], default_value);
 	}
 
+	deepGetAllParams(default_value = {}) {
+		return this.deepGet(this.state, ['raw', 'component', 'params'], default_value);
+	}
+
 	// http://adripofjavascript.com/blog/drips/making-deep-property-access-safe-in-javascript.html
 	deepGet(obj, props, default_value) {
 		// If we have reached an undefined/null property

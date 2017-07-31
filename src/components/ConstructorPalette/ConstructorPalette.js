@@ -1,32 +1,24 @@
 import React, { Component } from 'react';
 
-import VariantElementContainer from './Variant/VariantElementContainer'
-import VariantElementInput from './Variant/VariantElementInput'
-import VariantElementText from './Variant/VariantElementText'
-import VariantElementImg from './Variant/VariantElementImg'
-import VariantElementButton from './Variant/VariantElementButton'
-import VariantElementHTML from './Variant/VariantElementHTML'
-import ObjectVariantElementMenu from './Variant/ObjectVariantElementMenu'
-import ObjectVariantElementSearch from './Variant/ObjectVariantElementSearch'
+import ComponentList from '../../helpers/import_palette';
 
 
 export default class ConstructorPalette extends Component {
 
-
+	createComponent(name) {
+		return React.createElement(ComponentList.list[name], {})
+	}
 
 	render() {
 		return (
 			<div className="col-lg-2 constructor-palette__container">
 				<div className="row">
 					<div className="variant-elements__container" ref={this.props.dragula}>
-						<VariantElementContainer />
-						<VariantElementInput />
-						<VariantElementText />
-						<VariantElementImg />
-						<VariantElementButton />
-						<VariantElementHTML />
-						<ObjectVariantElementMenu />
-						<ObjectVariantElementSearch />
+						{
+							Object.keys(ComponentList.list).map((name) => {
+								return this.createComponent(name)
+							})
+						}
 					</div>
 				</div>
 			</div>

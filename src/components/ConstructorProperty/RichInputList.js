@@ -17,7 +17,7 @@ export default class RichInputList extends Component {
 
 
 		if (safe_data) {
-			if ((typeof safe_data) == 'string') {
+			if ((typeof safe_data) === 'string') {
 				safe_data = JSON.parse(safe_data);
 			}
 

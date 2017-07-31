@@ -2,14 +2,7 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import HelperCss from '../../helpers/css';
 import ConstructorZoneStruct from './ConstructorZoneStruct';
-import VariantElementText from '../ConstructorPalette/Variant/VariantElementText'
-import VariantElementImg from '../ConstructorPalette/Variant/VariantElementImg'
-import VariantElementHTML from '../ConstructorPalette/Variant/VariantElementHTML'
-import VariantElementInput from '../ConstructorPalette/Variant/VariantElementInput'
-import VariantElementButton from '../ConstructorPalette/Variant/VariantElementButton'
-import VariantElementContainer from '../ConstructorPalette/Variant/VariantElementContainer'
-import ObjectVariantElementMenu from '../ConstructorPalette/Variant/ObjectVariantElementMenu'
-import ObjectVariantElementSearch from '../ConstructorPalette/Variant/ObjectVariantElementSearch'
+import ComponentList from '../../helpers/import_palette';
 
 export default class ConstructorZone extends Component {
 
@@ -92,22 +85,10 @@ export default class ConstructorZone extends Component {
 
 		element.is_active = element.id == this.state.currentElementInProps;
 
-		switch (element.component.name) {
-			case 'VariantElementText':
-				return <VariantElementText data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
-			case 'VariantElementImg':
-				return <VariantElementImg data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
-			case 'VariantElementHTML':
-				return <VariantElementHTML data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
-			case 'VariantElementButton':
-				return <VariantElementButton data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
-			case 'VariantElementInput':
-				return <VariantElementInput data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
-			case 'ObjectVariantElementMenu':
-				return <ObjectVariantElementMenu data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
-			case 'ObjectVariantElementSearch':
-				return <ObjectVariantElementSearch data={element} setStateToPropertyObject={ this.setStateToPropertyObject } />
-		}
+		return React.createElement(ComponentList.list[element.component.name], {
+			data: element,
+			setStateToPropertyObject: this.setStateToPropertyObject
+		})
 	}
 
 	variantElementRender(component) {
@@ -204,18 +185,27 @@ export default class ConstructorZone extends Component {
 	render() {
 		return (
 			<div className="col-lg-8 constructor-zone__container">
-				<div>
+				<div className="clearfix">
 					{ this.variantElementContainerRender(this.getCurrentState()) }
 				</div>
-				<button onClick={ () => {
-					console.log(this.getCurrentState());
-				} }>тест!</button>
-				<button onClick={ () => {
-					this.clearZone()
-				} }>очистить</button>
-				<button onClick={ () => {
-					$('.constructor__container').toggleClass('preview');
-				} }>предпросмотр</button>
+				<div style={ { marginTop: '1rem' } }>
+					<div className="btn-group">
+						<button className="btn btn-danger" onClick={ () => {
+							if (window.confirm('Вы точно хотите очистить?')) {
+								this.clearZone()
+							}
+						} }>очистить</button>
+						<button className="btn btn-default" onClick={ () => {
+							console.log(this.getCurrentState());
+						} }>тест!</button>
+						<button className="btn btn-default" onClick={ () => {
+							$('.constructor__container').toggleClass('preview');
+						} }>предпросмотр</button>
+					</div>
+
+
+
+				</div>
 
 			</div>
 		)
