@@ -2,7 +2,13 @@
 	max-height: 100vh;
 }
 
-.constructor-palette__container {
+.sticky {
+	position: sticky;
+  top: 0;
+}
+
+.constructor-palette__container,
+.constructor-propertys__container {
 	max-height: 100vh;
 	overflow: auto;
   padding-top: 1rem;

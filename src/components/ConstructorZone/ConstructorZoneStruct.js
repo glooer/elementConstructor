@@ -241,7 +241,9 @@ export default class ConstructorZoneStruct {
 				return this.setKeysInside(item)
 			})
 		} else if (state.rows) {
-			state.id = this.getNextIteratorId();
+			if (!state.id) {
+				state.id = this.getNextIteratorId();
+			}
 			state.rows.map(item => {
 				return this.setKeysInside(item)
 			})
@@ -258,33 +260,58 @@ export default class ConstructorZoneStruct {
 		return this.searchIterator++;
 	}
 
-	getStruct() {
-		return this.state.data
-	}
-
 	componentList() {
 		return ComponentList.list
 	}
 
 	getComponentObjectByName(element_name) {
-		let componentList = this.componentList();
-		return new componentList[element_name];
+		let component_list = this.componentList();
+		return new component_list[element_name];
 	}
 
 	clearState() {
 		this.state.data = ZoneData.data;
 	}
 
+	getStruct() {
+		return this.state.data
+	}
+
+	getStyles() {
+		return this.state.styles
+	}
+
+	getScripts() {
+		return this.state.scripts
+	}
+
+	setStyles(style) {
+		this.state.styles = style;
+	}
+
+	getCurrentState() {
+		return this.state
+	}
+
+	setNewState(state) {
+		this.state = state;
+		this.searchIterator = this.getMaxId(this.getStruct()) + 1 || 1;
+	}
+
 	constructor() {
 		this.state = {
-			data: ZoneData.data
+			data: ZoneData.data,
+			styles: '',
+			scripts: ''
 		}
+		//
+		// if (localStorage.getItem('templaterZone') && localStorage.getItem('templaterZone') != 'null') {
+		// 	this.state.data = JSON.parse(localStorage.getItem('templaterZone'));
+		// }
 
-		if (localStorage.getItem('templaterZone') && localStorage.getItem('templaterZone') != 'null') {
-			this.state.data = JSON.parse(localStorage.getItem('templaterZone'));
-		}
 
 		this.searchIterator = this.getMaxId(this.getStruct()) + 1 || 1;
+		console.log(this.state, this.searchIterator);
 		this.clearState = this.clearState.bind(this)
 	}
 

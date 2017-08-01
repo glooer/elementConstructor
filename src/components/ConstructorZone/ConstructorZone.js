@@ -3,23 +3,34 @@ import $ from 'jquery';
 import HelperCss from '../../helpers/css';
 import ConstructorZoneStruct from './ConstructorZoneStruct';
 import ComponentList from '../../helpers/import_palette';
+import ModalStyle from '../ModalStyle/ModalStyle';
 
 export default class ConstructorZone extends Component {
 
 	constructor() {
 		super()
 		this.zoneStruct = new ConstructorZoneStruct;
+
+		if (localStorage.getItem('templaterZone') && localStorage.getItem('templaterZone') != 'null') {
+			this.zoneStruct.setNewState(JSON.parse(localStorage.getItem('templaterZone')));
+		}
+
 		this.state = {
-			zone: this.zoneStruct.setKeysInside(this.zoneStruct.getStruct())
+			zone: this.zoneStruct.setKeysInside(this.zoneStruct.getStruct()),
+			styles: this.zoneStruct.getStyles(),
+			scripts: this.zoneStruct.getScripts()
 		}
 
 		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
 		this.dropZoneClickHander = this.dropZoneClickHander.bind(this)
+
 	}
 
 	forceUpdateZone() {
 		this.setState(prevState => {
 			prevState.zone = this.zoneStruct.getStruct();
+			prevState.styles = this.zoneStruct.getStyles();
+			prevState.scripts = this.zoneStruct.getScripts();
 			return prevState;
 		})
 
@@ -28,7 +39,7 @@ export default class ConstructorZone extends Component {
 		// возможно если знать рекат по лучше это очевидно, но не сейчас
 		setTimeout(() => {
 			// а ещё сохраним всё что наделали в localStorege
-			localStorage.setItem('templaterZone', JSON.stringify(this.state.zone));
+			localStorage.setItem('templaterZone', JSON.stringify(this.zoneStruct.getCurrentState()));
 			this.forceUpdate()
 		}, 0)
 	}
@@ -60,6 +71,10 @@ export default class ConstructorZone extends Component {
 
 	getCurrentState() {
 		return this.state.zone;
+	}
+
+	getCurrentStyles() {
+		return this.state.styles;
 	}
 
 	createAndInsertElementToRow(element_name, container_id, insert_before = undefined) {
@@ -102,7 +117,7 @@ export default class ConstructorZone extends Component {
 
 	setStateToPropertyObject(id) {
 		// пока такой костыль, это нужно что бы нельзя было удалить самый первый контейнер
-		if (id == 2) {
+		if (id == 1) {
 			return;
 		}
 
@@ -182,32 +197,49 @@ export default class ConstructorZone extends Component {
 		)
 	}
 
+	onChangeStyle(style) {
+		this.zoneStruct.setStyles(style);
+		this.forceUpdateZone();
+	}
+
+	renderStyles() {
+		let current_style = this.getCurrentStyles()
+
+		return { __html: `<style>${current_style}</style>` }
+	}
+
 	render() {
 		return (
 			<div className="col-lg-8 constructor-zone__container">
+				<div dangerouslySetInnerHTML={ this.renderStyles() }></div>
 				<div className="clearfix">
 					{ this.variantElementContainerRender(this.getCurrentState()) }
 				</div>
 				<div style={ { marginTop: '1rem' } }>
-					<div className="btn-group">
-						<button className="btn btn-danger" onClick={ () => {
-							if (window.confirm('Вы точно хотите очистить?')) {
-								this.clearZone()
-							}
-						} }>очистить</button>
-						<button className="btn btn-default" onClick={ () => {
-							console.log(this.getCurrentState());
-						} }>тест!</button>
-						<button className="btn btn-default" onClick={ () => {
-							$('.constructor__container').toggleClass('preview');
-						} }>предпросмотр</button>
+					<div className="form-group">
+						<div className="btn-group">
+							<button className="btn btn-danger" onClick={ () => {
+								if (window.confirm('Вы точно хотите очистить?')) {
+									this.clearZone()
+								}
+							} }>очистить</button>
+							<button className="btn btn-default" onClick={ () => {
+								console.log(this.state);
+							} }>тест!</button>
+							<button className="btn btn-default" onClick={ () => {
+								$('.constructor__container').toggleClass('preview');
+							} }>предпросмотр</button>
+						</div>
 					</div>
-
-
-
+					<div className="form-group">
+						<div className="btn-group">
+							<ModalStyle onChangeStyle={ this.onChangeStyle.bind(this) } data-style={ this.getCurrentStyles() }/>
+						</div>
+					</div>
 				</div>
 
 			</div>
+
 		)
 	}
 }

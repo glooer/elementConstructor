@@ -134,6 +134,12 @@ export default class ConstructorProperty extends Component {
 	}
 
 	renderInputElement(args) {
+		if (args.type === "private") {
+			// если тип свойства private, то в списке его отображать не надо,
+			// соответсвенно по идее его не так просто будет отредактировать
+			return;
+		}
+
 		return (
 			<div className="form-group">
 				<label>{ args.name || args.key }</label>
@@ -142,19 +148,17 @@ export default class ConstructorProperty extends Component {
 		)
 	}
 
-	render() {
+	renderElement() {
 		let props = this.state.currentElementProps;
 		if (!this.state.currentElementId) {
 			return (
-				<div className="col-lg-2 constructor-propertys__container">
-					<h3>Элемент не выбран</h3>
-				</div>
+				<h3>Элемент не выбран</h3>
 			);
 		}
 
 		return (
-			<div className="col-lg-2 constructor-propertys__container">
-				<h3>Текущий номер элемента: { this.state.currentElementId }</h3>
+			<div className="sticky">
+				{ /* <h3>Текущий номер элемента: { this.state.currentElementId }</h3> */ }
 				<div>
 					{
 						Object.keys(props).map(key => {
@@ -172,5 +176,14 @@ export default class ConstructorProperty extends Component {
 				</div>
 			</div>
 		)
+
+	}
+
+	render() {
+		return (
+			<div className="col-lg-2 constructor-propertys__container">
+				{ this.renderElement() }
+			</div>
+		);
 	}
 }

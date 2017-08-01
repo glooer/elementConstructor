@@ -10,7 +10,12 @@ export default class VariantElementHTML extends Component {
 				'type': 'textarea',
 				'value': '<h3>Hello!</h3>',
 				'defaultValue': '&lt;h3&gt;Hello!&lt;/h3&gt;'
-			}
+			},
+			'style': {
+				'name': 'Стиль',
+				'type': 'textarea',
+				'value': ''
+			},
 		};
 	}
 
@@ -20,7 +25,11 @@ export default class VariantElementHTML extends Component {
 
 	renderElement() {
 		return (
-			<div dangerouslySetInnerHTML={ this.renderUnsaveHTML() }></div>
+			<div
+				style={ this.inlineStyleToObject(this.deepGetParam('style')) }
+				dangerouslySetInnerHTML={ this.renderUnsaveHTML() }
+			>
+			</div>
 		);
 	}
 }

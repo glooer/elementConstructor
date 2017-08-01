@@ -10,7 +10,8 @@
     "query-string": "^5.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-dragula": "^1.1.17"
+    "react-dragula": "^1.1.17",
+    "react-modal-bootstrap": "^1.1.1"
   },
   "devDependencies": {
     "axios": "^0.16.2",
