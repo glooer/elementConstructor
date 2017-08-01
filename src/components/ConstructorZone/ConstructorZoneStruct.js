@@ -213,26 +213,15 @@ export default class ConstructorZoneStruct {
 		// в принципе теперь любой элемент может вернуть свою структуру, нужно к примеру для компонентов которые включают в себя другие компоненты
 		// TODO: обходить всю структуру и расставлять идшники, ибо элементы могут быть вложенные.
 
-		let element_struct = element.getStructElement()
+		let element_struct = element.getStructElement(element_name)
 		if (element_struct) {
 			element_struct.id = this.getNextIteratorId()
 			return element_struct;
 		}
 
-		let element_params = element.getPropsList();
 
-		for (var item in element_params) {
-			element_params[item] = element_params[item].value;
-		}
-
-		return {
-			id: this.getNextIteratorId(),
-			classContainer: 'col-lg-12',
-			component: {
-				name: element_name,
-				params: element_params
-			}
-		};
+		console.log('тут ошибка, по идее каждый элемент должен возвращать свою структуру.');
+		return null;
 	}
 
 	setKeysInside(state) {
@@ -266,6 +255,8 @@ export default class ConstructorZoneStruct {
 
 	getComponentObjectByName(element_name) {
 		let component_list = this.componentList();
+		// console.log(element_name, `new ${element_name}()`, component_list, component_list[element_name]);
+		// return eval(`new ${element_name}()`)
 		return new component_list[element_name];
 	}
 

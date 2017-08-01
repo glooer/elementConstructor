@@ -19,6 +19,10 @@ export default class ObjectVariantFrameBase extends Component {
 		}
 	}
 
+	getClassName() {
+		return 'ObjectVariantFrameBase';
+	}
+
 	getPropsList() {
 		return {
 			'componentUrl': {

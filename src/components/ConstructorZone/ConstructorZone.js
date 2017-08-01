@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import $ from 'jquery';
-import HelperCss from '../../helpers/css';
-import ConstructorZoneStruct from './ConstructorZoneStruct';
-import ComponentList from '../../helpers/import_palette';
-import ModalStyle from '../ModalStyle/ModalStyle';
+import React, { Component } 	from 'react';
+import $ 											from 'jquery';
+import HelperCss							from '../../helpers/css';
+import ConstructorZoneStruct	from './ConstructorZoneStruct';
+import ComponentList 					from '../../helpers/import_palette';
+import ModalStyle 						from '../ModalStyle/ModalStyle';
 
 export default class ConstructorZone extends Component {
 
@@ -18,7 +18,8 @@ export default class ConstructorZone extends Component {
 		this.state = {
 			zone: this.zoneStruct.setKeysInside(this.zoneStruct.getStruct()),
 			styles: this.zoneStruct.getStyles(),
-			scripts: this.zoneStruct.getScripts()
+			scripts: this.zoneStruct.getScripts(),
+			isPreview: false
 		}
 
 		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
@@ -210,7 +211,7 @@ export default class ConstructorZone extends Component {
 
 	render() {
 		return (
-			<div className="col-lg-8 constructor-zone__container">
+			<div>
 				<div dangerouslySetInnerHTML={ this.renderStyles() }></div>
 				<div className="clearfix">
 					{ this.variantElementContainerRender(this.getCurrentState()) }
@@ -222,13 +223,14 @@ export default class ConstructorZone extends Component {
 								if (window.confirm('Вы точно хотите очистить?')) {
 									this.clearZone()
 								}
-							} }>очистить</button>
+							} }><span className="glyphicon glyphicon-fire" aria-hidden="true"></span> очистить</button>
+
+							<button className="btn btn-default" onClick={ () => {
+								$('.constructor__container').toggleClass('preview');
+							} }><span className="glyphicon glyphicon-sunglasses" aria-hidden="true"></span> предпросмотр</button>
 							<button className="btn btn-default" onClick={ () => {
 								console.log(this.state);
 							} }>тест!</button>
-							<button className="btn btn-default" onClick={ () => {
-								$('.constructor__container').toggleClass('preview');
-							} }>предпросмотр</button>
 						</div>
 					</div>
 					<div className="form-group">

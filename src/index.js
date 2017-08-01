@@ -6,8 +6,8 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import 'jquery';
 import 'dragula';
+import FontAwesome from 'font-awesome/css/font-awesome.css';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component } 	from 'react';
+import logo 									from './logo.svg';
 import './App.css';
-import Dragula1 from '../node_modules/dragula/dist/dragula.css';
-import Dragula from 'react-dragula';
-import ConstructorPalette from './components/ConstructorPalette/ConstructorPalette'
-import ConstructorZone from './components/ConstructorZone/ConstructorZone'
-import ConstructorProperty from './components/ConstructorProperty/ConstructorProperty'
+import Dragula1 							from '../node_modules/dragula/dist/dragula.css';
+import Dragula 								from 'react-dragula';
+import ConstructorPalette 		from './components/ConstructorPalette/ConstructorPalette'
+import ConstructorZone 				from './components/ConstructorZone/ConstructorZone'
+import ConstructorProperty 		from './components/ConstructorProperty/ConstructorProperty'
+import ScreenResolutions 			from './components/ScreenResolutions/ScreenResolutions'
 
 
 class App extends Component {
@@ -62,18 +63,28 @@ class App extends Component {
     return (
 			<div className="container-fluid">
 				<div className="row constructor__container">
-					<ConstructorPalette dragula={this.dragulaDecorator} />
-					<ConstructorZone
-						ref="constructorZoneContainer"
-						dragula={this.dragulaDecorator}
-						onChangeCurrentElementForChangeProperty={ this.onChangeCurrentElementForChangeProperty.bind(this) }
-						onChangeCurrentRowForChangeProperty={ this.onChangeCurrentRowForChangeProperty.bind(this) }
-					/>
-					<ConstructorProperty
-						ref="constructorPropertyContainer"
-						onChangeElementProps={ this.onChangeElementProps.bind(this) }
-						onDeleteElementProps={ this.onDeleteElementProps.bind(this) }
-					/>
+					<div className="col-lg-2 constructor-palette__container">
+						<div className="row">
+							<ScreenResolutions />
+							<ConstructorPalette dragula={this.dragulaDecorator} />
+						</div>
+					</div>
+					<div className="col-lg-8 constructor-zone__container">
+						<ConstructorZone
+							ref="constructorZoneContainer"
+							dragula={this.dragulaDecorator}
+							onChangeCurrentElementForChangeProperty={ this.onChangeCurrentElementForChangeProperty.bind(this) }
+							onChangeCurrentRowForChangeProperty={ this.onChangeCurrentRowForChangeProperty.bind(this) }
+						/>
+					</div>
+					<div className="col-lg-2 constructor-propertys__container">
+						<ConstructorProperty
+							ref="constructorPropertyContainer"
+							onChangeElementProps={ this.onChangeElementProps.bind(this) }
+							onDeleteElementProps={ this.onDeleteElementProps.bind(this) }
+						/>
+					</div>
+
 				</div>
 			</div>
     );
@@ -81,11 +92,12 @@ class App extends Component {
 
 	_onDrop(el, target, source, sibling) {
 		let is_new_element		= !!!el.dataset.elementId,
-				element_name			= el.dataset.elementName,
 				element_id				= el.dataset.elementId,
 				container_id			= target.dataset.elementId,
 				insertBefore;
 
+		const element_name = el.dataset.elementName;
+		console.log(element_name);
 		try {
 			insertBefore = sibling.dataset.elementId
 		} catch (e) {

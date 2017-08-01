@@ -9,6 +9,8 @@ import ObjectVariantElementSearch 		from '../components/ConstructorPalette/Varia
 import ObjectVariantFrameBase 				from '../components/ConstructorPalette/Variant/ObjectVariantFrameBase'
 import ObjectVariantFrameCategory 		from '../components/ConstructorPalette/Variant/ObjectVariantFrameCategory'
 import ObjectVariantFrameBasketWat 	 	from '../components/ConstructorPalette/Variant/ObjectVariantFrameBasketWat'
+import ObjectVariantFrameNews 	 			from '../components/ConstructorPalette/Variant/ObjectVariantFrameNews'
+import ObjectVariantFrameProducts 	 	from '../components/ConstructorPalette/Variant/ObjectVariantFrameProducts'
 
 export default {
 	list: {
@@ -22,7 +24,9 @@ export default {
 		'ObjectVariantElementSearch':		ObjectVariantElementSearch,
 		'ObjectVariantFrameBase':				ObjectVariantFrameBase,
 		'ObjectVariantFrameCategory':		ObjectVariantFrameCategory,
-		'ObjectVariantFrameBasketWat':	ObjectVariantFrameBasketWat
+		'ObjectVariantFrameBasketWat':	ObjectVariantFrameBasketWat,
+		'ObjectVariantFrameProducts':		ObjectVariantFrameProducts,
+		'ObjectVariantFrameNews':				ObjectVariantFrameNews
 	}
 
 }

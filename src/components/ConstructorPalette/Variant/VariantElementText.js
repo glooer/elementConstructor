@@ -26,6 +26,10 @@ export default class VariantElementText extends Component {
 		};
 	}
 
+	getClassName() {
+		return 'VariantElementText'
+	}
+
 	renderElement() {
 		return (
 			<div style={ this.inlineStyleToObject(this.deepGetParam('style')) }>

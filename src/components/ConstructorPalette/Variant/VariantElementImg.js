@@ -8,6 +8,10 @@ export default class VariantElementImg extends Component {
 		this.deepGetParam = this.deepGetParam.bind(this)
 	}
 
+	getClassName() {
+		return 'VariantElementImg'
+	}
+
 	getPropsList() {
 		return {
 			'src': {
@@ -22,13 +26,19 @@ export default class VariantElementImg extends Component {
 				'name': 'имя класса',
 				'value': '',
 				'defaultValue': 'img-thumbnail'
-			}
+			},
+			'style': {
+				'name': 'Стиль',
+				'type': 'textarea',
+				'value': ''
+			},
 		};
 	}
 
 	renderElement() {
 		return (
 			<img
+				style={ this.inlineStyleToObject(this.deepGetParam('style')) }
 				className={ this.deepGetParam('className') }
 				src={ this.deepGetParam('src', '/') }
 				alt={ this.deepGetParam('alt') }

@@ -12,6 +12,9 @@ export default class VariantElementButton extends Component {
 		};
 	}
 
+	getClassName() {
+		return 'VariantElementButton'
+	}
 
 	renderElement() {
 		return (

@@ -21,7 +21,7 @@ export default class Component extends React.Component {
 				'value': ''
 			},
 			'col-lg': {
-				'name': 'Large devices Desktops (≥1200px)',
+				'name': 'Большие устройства – Настольные компьютеры (≥1200px)',
 				'type': 'select',
 				'value': 'col-xs-12',
 				'defaultValue': {
@@ -40,7 +40,7 @@ export default class Component extends React.Component {
 				}
 			},
 			'col-md': {
-				'name': 'Medium devices Desktops (≥992px)',
+				'name': 'Средние устройства – Ноутбуки (≥992px)',
 				'type': 'select',
 				'value': 'col-xs-12',
 				'defaultValue': {
@@ -59,7 +59,7 @@ export default class Component extends React.Component {
 				}
 			},
 			'col-sm': {
-				'name': 'Small devices Tablets (≥768px)',
+				'name': 'Малеьнокие устройства – Планшеты (≥768px)',
 				'type': 'select',
 				'value': 'col-xs-12',
 				'defaultValue': {
@@ -78,7 +78,7 @@ export default class Component extends React.Component {
 				}
 			},
 			'col-xs': {
-				'name': 'Extra small devices Phones (<768px)',
+				'name': 'Очень маленькие устройства – Телефоны (<768px)',
 				'type': 'select',
 				'value': 'col-xs-12',
 				'defaultValue': {
@@ -103,8 +103,21 @@ export default class Component extends React.Component {
 		return Object.assign({}, this.getCommonPropsList(), this.getPropsList());
 	}
 
-	getStructElement() {
-		return null;
+	getStructElement(element_name) {
+		let element_params = this.getPropsList();
+
+		for (var item in element_params) {
+			element_params[item] = element_params[item].value;
+		}
+
+		return {
+			id: null,
+			classContainer: 'col-lg-12 col-md-12 col-sm-12 col-xs-12',
+			component: {
+				name: element_name,
+				params: element_params
+			}
+		};
 	}
 
 	getPropsList() {
@@ -158,7 +171,7 @@ export default class Component extends React.Component {
 
 		this.setState((prevState) => {
 			prevState.data.value = value
-			prevState.data.classContainer = classContainer || 'col-lg-12'
+			prevState.data.classContainer = classContainer || 'col-lg-12 col-md-12 col-sm-12 col-xs-12'
 			prevState.data.id = id;
 			prevState.raw = this.props.data
 
@@ -167,8 +180,12 @@ export default class Component extends React.Component {
 	}
 
 	// если ты дурачок и не соблюдаешь соглашение о именовании классов (они всегда должны быть с большой буквы) то сорян.
-	classNameToCss() {
-		return this.constructor.name.replace(/[A-Z]/g, v => '-' + v.toLowerCase()).slice(1)
+	classNameToCss(class_name) {
+		return class_name.replace(/[A-Z]/g, v => '-' + v.toLowerCase()).slice(1)
+	}
+
+	getClassName() {
+		return this.constructor.name;
 	}
 
 	inlineStyleToObject(style) {
@@ -192,9 +209,9 @@ export default class Component extends React.Component {
 
 	render() {
 		return (
-			<div key={ this.state.data.id } onClick={ this.setStateToPropertyObject } data-element-name={ this.constructor.name } data-element-id={ this.state.data.id } className={ this.state.data.classContainer }>
+			<div key={ this.state.data.id } onClick={ this.setStateToPropertyObject } data-element-name={ this.getClassName() } data-element-id={ this.state.data.id } className={ this.state.data.classContainer }>
 				<div className={ "variant-element__container" + (this.deepGet(this.state, ['raw', 'is_active']) ? ' active' : '') }>
-					<div className={ this.classNameToCss() }>
+					<div className={ this.classNameToCss(this.getClassName()) }>
 						{ this.renderElement() }
 					</div>
 				</div>

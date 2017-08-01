@@ -16,6 +16,10 @@ export default class ObjectVariantFrameCategory extends Component {
 		};
 	}
 
+	getClassName() {
+		return 'ObjectVariantFrameCategory'
+	}
+
 	getDefaultComponentName() {
 		return 'Фрейм компонента категорий';
 	}

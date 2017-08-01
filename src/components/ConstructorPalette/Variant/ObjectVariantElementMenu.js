@@ -19,6 +19,10 @@ export default class ObjectVariantElementMenu extends Component {
 		};
 	}
 
+	getClassName() {
+		return 'ObjectVariantElementMenu'
+	}
+
 	getDefaultComponentName() {
 		return 'Меню';
 	}

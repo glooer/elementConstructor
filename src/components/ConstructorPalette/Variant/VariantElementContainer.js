@@ -23,6 +23,10 @@ export default class VariantElementContainer extends Component {
 		};
 	}
 
+	getClassName() {
+		return 'VariantElementContainer'
+	}
+
 	renderElement() {
 		return null
 	}

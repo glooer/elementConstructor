@@ -1,28 +1,28 @@
 // import React from 'react';
 import Component from './ObjectVariantFrameBase'
 
-export default class ObjectVariantFrameBasketWat extends Component {
+export default class ObjectVariantFrameProducts extends Component {
 
 	getPropsList() {
 		return {
 			'componentUrl': {
 				'type': 'private',
 				'name': 'Адрес компонента',
-				'value': 'http://localhost:3000/componentBasket.html'
+				'value': 'http://localhost:3000/componentProducts.html'
 			},
 			'componentCountNews': {
-				'name': 'Количество новостей',
-				'value': 3
+				'name': 'Количество товаров',
+				'value': 42
 			}
 		};
 	}
 
 	getClassName() {
-		return 'ObjectVariantFrameBasketWat'
+		return 'ObjectVariantFrameProducts'
 	}
 
 	getDefaultComponentName() {
-		return 'Фрейм компонента корзины';
+		return 'Фрейм компонента товаров';
 	}
 
 }

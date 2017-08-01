@@ -181,7 +181,7 @@ export default class ConstructorProperty extends Component {
 
 	render() {
 		return (
-			<div className="col-lg-2 constructor-propertys__container">
+			<div>
 				{ this.renderElement() }
 			</div>
 		);
