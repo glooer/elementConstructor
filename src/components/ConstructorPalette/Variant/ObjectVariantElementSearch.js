@@ -23,7 +23,7 @@ export default class ObjectVariantElementSearch extends Component {
 
 	renderElement() {
 		return (
-			<div className="input-group">
+			<div className="input-group" style={ this.inlineStyleToObject(this.deepGetParam('style')) }>
 				<span className="input-group-addon">
 					<span className="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</span>

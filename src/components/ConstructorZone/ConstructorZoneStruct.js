@@ -290,11 +290,13 @@ export default class ConstructorZoneStruct {
 	}
 
 	constructor() {
-		this.state = {
-			data: ZoneData.data,
-			styles: '',
-			scripts: ''
-		}
+		// this.state = {
+		// 	data: ZoneData.data,
+		// 	styles: '',
+		// 	scripts: ''
+		// }
+		// console.log(ZoneData.getDefaultState);
+		this.state = ZoneData.getDefaultState
 		//
 		// if (localStorage.getItem('templaterZone') && localStorage.getItem('templaterZone') != 'null') {
 		// 	this.state.data = JSON.parse(localStorage.getItem('templaterZone'));
@@ -302,7 +304,6 @@ export default class ConstructorZoneStruct {
 
 
 		this.searchIterator = this.getMaxId(this.getStruct()) + 1 || 1;
-		console.log(this.state, this.searchIterator);
 		this.clearState = this.clearState.bind(this)
 	}
 

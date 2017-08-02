@@ -7,6 +7,7 @@ export default class VariantElementContainer extends Component {
 		return {
 			'styleContainer': {
 				'name': 'Стиль',
+				'type': 'textarea',
 				'value': ''
 			},
 		};

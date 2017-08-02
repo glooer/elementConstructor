@@ -1,34 +1,23 @@
-<div class="list-category__container">
-	<ul class="list-unstyled list-category__item">
-		<li>Категория 1</li>
-		<li>Категория 2</li>
-		<li>Категория 3</li>
-		<li>Категория 4</li>
-		<li>Категория 5</li>
-		<li>Категория 6</li>
-		<li>Категория 7</li>
-		<li>Категория 8</li>
-		<li>Категория 9</li>
-		<li>Категория 10</li>
+<div class="component-sections__container">
+	<ul class="nav nav-pills nav-justified">
+		<li>Раздел 1</li>
+		<li>Раздел 2</li>
+		<li>Раздел 3</li>
+		<li>Раздел 4</li>
+		<li>Раздел 5</li>
 	</ul>
-	<div class="list-category-all">
-		Все категории
-	</div>
 </div>
 
-
 <style media="screen">
-	.list-category__container {
-		background-color: white;
-    border: 1px solid #d7d7d7;
+	.component-sections__container {
+		background: #fe0000;
+		text-align: center;
+		color: white;
+		border: 1px solid hsla(0, 0%, 0%, 0.1);
 	}
 
-	.list-category__item {
-		margin: 1rem 2rem;
-	}
-
-	.list-category-all {
-		background: #ebebeb;
-		padding: 1rem 2rem;
+	.component-sections__container > .nav-pills > li + li {
+    border-left: 1px solid hsla(0, 0%, 0%, 0.2);
+    padding: 1rem 0;
 	}
 </style>

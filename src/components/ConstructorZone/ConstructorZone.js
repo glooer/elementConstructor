@@ -7,9 +7,9 @@ import ModalStyle 						from '../ModalStyle/ModalStyle';
 
 export default class ConstructorZone extends Component {
 
-	constructor() {
-		super()
-		this.zoneStruct = new ConstructorZoneStruct;
+	constructor(...args) {
+		super(...args)
+		this.zoneStruct = new ConstructorZoneStruct();
 
 		if (localStorage.getItem('templaterZone') && localStorage.getItem('templaterZone') != 'null') {
 			this.zoneStruct.setNewState(JSON.parse(localStorage.getItem('templaterZone')));
@@ -125,7 +125,7 @@ export default class ConstructorZone extends Component {
 		let element = this.zoneStruct.getElementById(id)
 
 		if (!element) {
-			console.log(`элемент #{id} не найден`);
+			console.log(`элемент ${id} не найден`);
 		}
 
 		if (element.rows) {
@@ -198,6 +198,24 @@ export default class ConstructorZone extends Component {
 		)
 	}
 
+	changePreviewStack(is_preview) {
+		if (is_preview) {
+			$('.constructor__container').addClass('preview');
+		} else {
+			$('.constructor__container').removeClass('preview');
+		}
+	}
+
+	changePreview(is_preview) {
+		if (is_preview) {
+			$('.constructor__container').addClass('preview-true preview');
+			$('.constructor__container > .constructor-zone__container').addClass('container').removeClass('col-lg-8')
+		} else {
+			$('.constructor__container').removeClass('preview-true');
+			$('.constructor__container > .constructor-zone__container').removeClass('container').addClass('col-lg-8')
+		}
+	}
+
 	onChangeStyle(style) {
 		this.zoneStruct.setStyles(style);
 		this.forceUpdateZone();
@@ -217,22 +235,7 @@ export default class ConstructorZone extends Component {
 					{ this.variantElementContainerRender(this.getCurrentState()) }
 				</div>
 				<div style={ { marginTop: '1rem' } }>
-					<div className="form-group">
-						<div className="btn-group">
-							<button className="btn btn-danger" onClick={ () => {
-								if (window.confirm('Вы точно хотите очистить?')) {
-									this.clearZone()
-								}
-							} }><span className="glyphicon glyphicon-fire" aria-hidden="true"></span> очистить</button>
 
-							<button className="btn btn-default" onClick={ () => {
-								$('.constructor__container').toggleClass('preview');
-							} }><span className="glyphicon glyphicon-sunglasses" aria-hidden="true"></span> предпросмотр</button>
-							<button className="btn btn-default" onClick={ () => {
-								console.log(this.state);
-							} }>тест!</button>
-						</div>
-					</div>
 					<div className="form-group">
 						<div className="btn-group">
 							<ModalStyle onChangeStyle={ this.onChangeStyle.bind(this) } data-style={ this.getCurrentStyles() }/>

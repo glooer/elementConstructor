@@ -149,12 +149,13 @@
 }
 
 .constructor-propertys__container textarea[data-element-props-key="style"],
+.constructor-propertys__container textarea[data-element-props-key="styleContainer"],
 .constructor-propertys__container textarea[data-element-props-key="html"] {
 	transition: all .3s;
 	height: 6rem;
 }
 
-.constructor-propertys__container textarea[data-element-props-key="style"]:focus,
+.constructor-propertys__container textarea[data-element-props-key="styleContainer"]:focus,
 .constructor-propertys__container textarea[data-element-props-key="html"]:focus {
 	height: 25rem;
 }
@@ -197,6 +198,16 @@
   margin-bottom: 1rem;
 }
 
+.constructor__container:not(.preview) .constructor-drop-zone__container .row[data-element-id] {
+	margin: 0 !important;
+  margin-bottom: 1rem !important;
+  border: 4px dashed hsla(0, 0%, 85%, 1) !important;
+}
+
+.constructor__container:not(.preview) .constructor-drop-zone__container.active.row[data-element-id] {
+	border-color: hsla(0, 60%, 85%, 1) !important;
+}
+
 .constructor__container.preview .constructor-zone__container .constructor-drop-zone__container {
 	border-width: 0;
 	padding: 0;
@@ -213,4 +224,48 @@
 	border-width: 0;
 	padding: 0;
 	margin: 0;
+}
+
+@media (min-width: 1200px) {
+	.constructor-palette__container,
+	.constructor-propertys__container {
+		height: 100vh;
+	}
+
+	body:not(.modal-open) .constructor-palette__container .constructor-element-fixed,
+	body:not(.modal-open) .constructor-propertys__container .constructor-element-fixed {
+		position: fixed;
+		height: 100vh;
+    width: 15.66666667%;
+		overflow: auto;
+		padding: 1rem 0;
+    padding-right: 1.5rem;
+		top: 0;
+		z-index: 10000;
+	}
+}
+
+.constructor-palette__container,
+.constructor-propertys__container {
+	/*transition: all .5s;*/
+}
+
+.constructor__container.preview-true > .constructor-palette__container,
+.constructor__container.preview-true > .constructor-propertys__container {
+	display: none;
+}
+
+.btn-preview {
+	position: fixed;
+	display: none;
+	top: 0;
+	left: 0;
+	padding: 1rem;
+	background: white;
+	box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.12), 0px 2px 2px 0px rgba(0,0,0,0.24);
+	transition: box-shadow 0.2s ease;
+}
+
+.btn-preview > button {
+	border-radius: 0;
 }

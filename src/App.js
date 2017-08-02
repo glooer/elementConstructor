@@ -1,12 +1,13 @@
 import React, { Component } 	from 'react';
-import logo 									from './logo.svg';
+// import logo 									from './logo.svg';
 import './App.css';
-import Dragula1 							from '../node_modules/dragula/dist/dragula.css';
+// import Dragula1 							from '../node_modules/dragula/dist/dragula.css';
 import Dragula 								from 'react-dragula';
 import ConstructorPalette 		from './components/ConstructorPalette/ConstructorPalette'
 import ConstructorZone 				from './components/ConstructorZone/ConstructorZone'
 import ConstructorProperty 		from './components/ConstructorProperty/ConstructorProperty'
 import ScreenResolutions 			from './components/ScreenResolutions/ScreenResolutions'
+import ZoneChanger 						from './components/ZoneChanger/ZoneChanger'
 
 
 class App extends Component {
@@ -28,7 +29,10 @@ class App extends Component {
 		}
 
 
-		this.dragulaDecorator = this.dragulaDecorator.bind(this)
+		this.dragulaDecorator	= this.dragulaDecorator.bind(this)
+		this.onChangePreviewStack	= this.onChangePreviewStack.bind(this)
+		this.onZoneCleared	= this.onZoneCleared.bind(this)
+		this.onChangePreview	= this.onChangePreview.bind(this)
 		this.initDragula();
 	}
 
@@ -59,30 +63,67 @@ class App extends Component {
 		this.refs.constructorZoneContainer.deleteElementById(id)
 	}
 
+	onChangePreview(...args) {
+		this.refs.constructorZoneContainer.changePreview(...args)
+	}
+
+	onChangePreviewStack(...args) {
+		this.refs.constructorZoneContainer.changePreviewStack(...args)
+	}
+
+	onZoneCleared() {
+		this.refs.constructorZoneContainer.clearZone()
+	}
+
+	getCurrentStyles() {
+		// console.log(this.refs);
+		// return "123";
+		return this.refs.constructorZoneContainer
+	}
+
+	onChangeStyle(...args) {
+		this.refs.constructorZoneContainer.onChangeStyle(args)
+	}
+
+
+
   render() {
     return (
 			<div className="container-fluid">
 				<div className="row constructor__container">
 					<div className="col-lg-2 constructor-palette__container">
-						<div className="row">
-							<ScreenResolutions />
-							<ConstructorPalette dragula={this.dragulaDecorator} />
+						<div className="constructor-element-fixed">
+							<div className="row">
+								<ScreenResolutions />
+								<ZoneChanger
+									onChangePreview={ this.onChangePreview }
+									onChangePreviewStack={ this.onChangePreviewStack }
+									onZoneCleared={ this.onZoneCleared }
+									dataStyles={ {
+										data: this.getCurrentStyles,
+										onChange: this.onChangeStyle
+									} }
+								/>
+								<ConstructorPalette dragula={ this.dragulaDecorator } />
+							</div>
 						</div>
 					</div>
 					<div className="col-lg-8 constructor-zone__container">
 						<ConstructorZone
 							ref="constructorZoneContainer"
-							dragula={this.dragulaDecorator}
+							dragula={ this.dragulaDecorator }
 							onChangeCurrentElementForChangeProperty={ this.onChangeCurrentElementForChangeProperty.bind(this) }
 							onChangeCurrentRowForChangeProperty={ this.onChangeCurrentRowForChangeProperty.bind(this) }
 						/>
 					</div>
 					<div className="col-lg-2 constructor-propertys__container">
-						<ConstructorProperty
-							ref="constructorPropertyContainer"
-							onChangeElementProps={ this.onChangeElementProps.bind(this) }
-							onDeleteElementProps={ this.onDeleteElementProps.bind(this) }
-						/>
+						<div className="constructor-element-fixed">
+							<ConstructorProperty
+								ref="constructorPropertyContainer"
+								onChangeElementProps={ this.onChangeElementProps.bind(this) }
+								onDeleteElementProps={ this.onDeleteElementProps.bind(this) }
+							/>
+						</div>
 					</div>
 
 				</div>

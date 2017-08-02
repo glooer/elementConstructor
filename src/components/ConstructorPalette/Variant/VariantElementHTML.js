@@ -24,16 +24,12 @@ export default class VariantElementHTML extends Component {
 	}
 
 	renderUnsaveHTML() {
-		return { __html: this.deepGetParam('html') }
+		return { __html: this.deepGetParam('html'), __style: this.deepGetParam('style') }
 	}
 
 	renderElement() {
 		return (
-			<div
-				style={ this.inlineStyleToObject(this.deepGetParam('style')) }
-				dangerouslySetInnerHTML={ this.renderUnsaveHTML() }
-			>
-			</div>
+			<div dangerouslySetInnerHTML={ this.renderUnsaveHTML() }></div>
 		);
 	}
 }

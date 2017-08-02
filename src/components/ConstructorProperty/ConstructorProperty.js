@@ -44,7 +44,8 @@ export default class ConstructorProperty extends Component {
 
 		let temp;
 		for (let pattern in patterns) {
-			if (temp = str.match(patterns[pattern])) {
+			temp = str.match(patterns[pattern])
+			if (temp) {
 				res[pattern] = temp[0];
 			} else {
 				res[pattern] = null;
@@ -82,7 +83,10 @@ export default class ConstructorProperty extends Component {
 			this.state.currentElementProps['col-xs'],
 		].filter(v => !!v);
 
-		this.state.currentElementProps.classContainer = this.state.currentElementProps.classContainer.split(/ /).filter(v => !/col-(lg|md|sm|xs)-\d+/.test(v)).concat(bootstrapClasses).join(' ');
+		this.setState(prevState => {
+			prevState.currentElementProps.classContainer = prevState.currentElementProps.classContainer.split(/ /).filter(v => !/col-(lg|md|sm|xs)-\d+/.test(v)).concat(bootstrapClasses).join(' ');
+			return prevState;
+		})
 
 		this.props.onChangeElementProps(this.state)
 	}
