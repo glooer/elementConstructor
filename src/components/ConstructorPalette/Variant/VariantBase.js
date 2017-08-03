@@ -5,14 +5,8 @@ export default class Component extends React.Component {
 	constructor(props) {
 		super(props);
 
-		let params = this.getPropsDefaultParams()
-
 		this.state = {
-			data: {
-				value: params.value,
-				classContainer: params.classContainer,
-				id: params.id
-			}
+			data: {}
 		}
 
 		this.setStateToPropertyObject = this.setStateToPropertyObject.bind(this)
@@ -146,7 +140,7 @@ export default class Component extends React.Component {
 	}
 
 	// http://adripofjavascript.com/blog/drips/making-deep-property-access-safe-in-javascript.html
-	deepGet(obj, props, default_value = '') {
+	deepGet(obj, props, default_value) {
 		// If we have reached an undefined/null property
 		// then stop executing and return the default value.
 		// If no default was provided it will be undefined.
@@ -167,22 +161,20 @@ export default class Component extends React.Component {
 		return this.deepGet(foundSoFar, remainingProps, default_value);
 	}
 
-	getPropsDefaultParams() {
-		return {
-			value: this.deepGet(this.props, ['data', 'component', 'params', 'text']),
-			classContainer: this.deepGet(this.props, ['data', 'classContainer']),
-			id: this.deepGet(this.props, ['data', 'id'])
-
-		}
-	}
-
 	componentWillReceiveProps() {
+		let value, classContainer, id;
+		try {
+			value = this.props.data.component.params.text
+			classContainer = this.props.data.classContainer
+			id = this.props.data.id
+		} catch (e) {}
+
 		this.setState((prevState) => {
-			let params = this.getPropsDefaultParams()
-			prevState.data.value = params.value
-			prevState.data.classContainer = params.classContainer || 'col-lg-12 col-md-12 col-sm-12 col-xs-12'
-			prevState.data.id = params.id;
-			prevState.raw = this.props.data;
+			prevState.data.value = value
+			prevState.data.classContainer = classContainer || 'col-lg-12 col-md-12 col-sm-12 col-xs-12'
+			prevState.data.id = id;
+			prevState.raw = this.props.data
+
 			return prevState;
 		})
 	}
@@ -217,7 +209,7 @@ export default class Component extends React.Component {
 
 	render() {
 		return (
-			<div key={ this.state.data.id || Math.random() } onClick={ this.setStateToPropertyObject } data-element-name={ this.getClassName() } data-element-id={ this.state.data.id } className={ this.state.data.classContainer }>
+			<div key={ this.state.data.id } onClick={ this.setStateToPropertyObject } data-element-name={ this.getClassName() } data-element-id={ this.state.data.id } className={ this.state.data.classContainer }>
 				<div className={ "variant-element__container" + (this.deepGet(this.state, ['raw', 'is_active']) ? ' active' : '') }>
 					<div className={ this.classNameToCss(this.getClassName()) }>
 						{ this.renderElement() }

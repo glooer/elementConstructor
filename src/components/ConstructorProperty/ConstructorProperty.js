@@ -119,8 +119,8 @@ export default class ConstructorProperty extends Component {
 
 			return (
 				<select value={ args.value } data-element-props-key={ args.key } className="form-control" onChange={ this.handleChange } >
-					{ Object.keys(args.defaultValue).map(val => (
-						<option value={ val }>{ args.defaultValue[val] }</option>
+					{ Object.keys(args.defaultValue).map((val, key) => (
+						<option key={ `${args.key}_${key}` } value={ val }>{ args.defaultValue[val] }</option>
 					)) }
 				</select>
 			)
@@ -145,7 +145,7 @@ export default class ConstructorProperty extends Component {
 		}
 
 		return (
-			<div className="form-group">
+			<div key={ `input_${args.key}_container` } className="form-group">
 				<label>{ args.name || args.key }</label>
 				{ this.getInputElement(args) }
 			</div>

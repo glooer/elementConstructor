@@ -138,7 +138,6 @@ class App extends Component {
 				insertBefore;
 
 		const element_name = el.dataset.elementName;
-		console.log(element_name);
 		try {
 			insertBefore = sibling.dataset.elementId
 		} catch (e) {
