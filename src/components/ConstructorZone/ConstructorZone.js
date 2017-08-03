@@ -11,7 +11,7 @@ export default class ConstructorZone extends Component {
 		super(...args)
 		this.zoneStruct = new ConstructorZoneStruct();
 
-		if (localStorage.getItem('templaterZone') && localStorage.getItem('templaterZone') != 'null') {
+		if (localStorage.getItem('templaterZone') && localStorage.getItem('templaterZone') !== 'null') {
 			this.zoneStruct.setNewState(JSON.parse(localStorage.getItem('templaterZone')));
 		}
 
@@ -94,21 +94,22 @@ export default class ConstructorZone extends Component {
 		console.log(this.state);
 	}
 
-	variantElementFactory(element) {
+	variantElementFactory(element, i) {
 		if (!element.component) {
 			return
 		}
 
-		element.is_active = element.id == this.state.currentElementInProps;
+		element.is_active = String(element.id) === String(this.state.currentElementInProps);
 
 		return React.createElement(ComponentList.list[element.component.name], {
+			key: `element_${i}_${element.id}`,
 			data: element,
 			setStateToPropertyObject: this.setStateToPropertyObject
 		})
 	}
 
-	variantElementRender(component) {
-		return this.variantElementFactory(component) ;
+	variantElementRender(component, i = null) {
+		return this.variantElementFactory(component, i) ;
 	}
 
 	clearZone() {
@@ -118,7 +119,7 @@ export default class ConstructorZone extends Component {
 
 	setStateToPropertyObject(id) {
 		// пока такой костыль, это нужно что бы нельзя было удалить самый первый контейнер
-		if (id == 1) {
+		if (String(id) === "1") {
 			return;
 		}
 
@@ -148,7 +149,7 @@ export default class ConstructorZone extends Component {
 	}
 
 	dropZoneClickHander(event) {
-		if (event.currentTarget != event.target) {
+		if (event.currentTarget !== event.target) {
 			return;
 		}
 
@@ -158,8 +159,7 @@ export default class ConstructorZone extends Component {
 			return;
 		}
 
-		let offset;
-		[id, offset] = id.toString().split(/_/);
+		id = id.toString().split(/_/)[0];
 		this.setStateToPropertyObject(id)
 	}
 
@@ -170,18 +170,18 @@ export default class ConstructorZone extends Component {
 
 		let className = i ? "row constructor-drop-zone__container" : "";
 		if (i) {
-			if (i.split(/_/)[0] == this.state.currentElementInProps) {
+			if (String(i.split(/_/)[0]) === String(this.state.currentElementInProps)) {
 				className += ' active';
 			}
 		}
 
 		return (
-			<div data-element-id={ i } data-type="row" style={ HelperCss.inlineStyleToObject(style) } className={ className } ref={ i ? this.props.dragula : null } onClick={ this.dropZoneClickHander }>
+			<div key={ i } data-element-id={ i } data-type="row" style={ HelperCss.inlineStyleToObject(style) } className={ className } ref={ i ? this.props.dragula : null } onClick={ this.dropZoneClickHander }>
 				{
 					components.map((row) => {
 						if (row.rows) {
 							return (
-								<div data-element-id={ row.id } data-type={ 'row' } className={ row.classContainer }>
+								<div key={ `container_${i}_${row.id}` } data-element-id={ row.id } data-type={ 'row' } className={ row.classContainer }>
 									{ row.rows.map((component, i) => {
 										return this.variantElementContainerRender(component, `${row.id}_${i}`, row.styleContainer);
 									}) }
@@ -190,8 +190,10 @@ export default class ConstructorZone extends Component {
 						}
 
 						if (row.component) {
-							return this.variantElementRender(row)
+							return this.variantElementRender(row, i)
 						}
+
+						return null;
 					})
 				}
 			</div>

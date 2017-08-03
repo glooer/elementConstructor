@@ -74,7 +74,7 @@ export default class ConstructorZoneStruct {
 		let row = this.getElementById(container_id, prevState);
 
 		let ins = row.rows[container_offset].reduce((acc, val, i) => {
-			return val.id == insertBefore ? i : acc;
+			return String(val.id) === String(insertBefore) ? i : acc;
 		}, row.rows[container_offset].length)
 
 		row.rows[container_offset].splice(ins, 0, component)
@@ -126,7 +126,7 @@ export default class ConstructorZoneStruct {
 
 	stateUpdateElementById(id, component, prevState = this.getStruct()) {
 		if (prevState.id) {
-			if (prevState.id == id) {
+			if (String(prevState.id) === String(id)) {
 				prevState = component;
 				return prevState;
 			}
@@ -170,24 +170,24 @@ export default class ConstructorZoneStruct {
 		if (Array.isArray(state)) {
 			state.forEach(item => {
 				localElement = this.recursiveSearch(item, id)
-				if (localElement && localElement.id == id) {
+				if (localElement && String(localElement.id) === String(id)) {
 					element = localElement
 				}
 			})
 		} else if (state.rows) {
 			// мы же можем искать и по строке
-			if (state.id == id) {
+			if (String(state.id) === String(id)) {
 				element = state
 			} else {
 				state.rows.forEach(item => {
 					localElement = this.recursiveSearch(item, id)
-					if (localElement && localElement.id == id) {
+					if (localElement && String(localElement.id) === String(id)) {
 						element = localElement
 					}
 				})
 			}
 
-		} else if (state.id == id) {
+		} else if (String(state.id) === String(id)) {
 			return state
 		}
 
@@ -255,9 +255,7 @@ export default class ConstructorZoneStruct {
 
 	getComponentObjectByName(element_name) {
 		let component_list = this.componentList();
-		// console.log(element_name, `new ${element_name}()`, component_list, component_list[element_name]);
-		// return eval(`new ${element_name}()`)
-		return new component_list[element_name];
+		return new component_list[element_name]();
 	}
 
 	clearState() {

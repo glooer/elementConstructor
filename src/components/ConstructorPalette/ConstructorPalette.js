@@ -6,8 +6,13 @@ import ComponentList from '../../helpers/import_palette';
 
 export default class ConstructorPalette extends Component {
 
-	createComponent(name) {
-		return React.createElement(ComponentList.list[name], {})
+	createComponent(name, key = null) {
+		return React.createElement(ComponentList.list[name], {
+			key: key,
+			data: {
+				id: `${name}_template`
+			}
+		})
 	}
 
 	render() {
@@ -15,8 +20,8 @@ export default class ConstructorPalette extends Component {
 			<div>
 				<div className="variant-elements__container" ref={this.props.dragula}>
 					{
-						Object.keys(ComponentList.list).map((name) => {
-							return this.createComponent(name)
+						Object.keys(ComponentList.list).map((name, key) => {
+							return this.createComponent(name, `${key}_template_container`)
 						})
 					}
 				</div>

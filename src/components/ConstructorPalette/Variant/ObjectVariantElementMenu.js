@@ -43,9 +43,9 @@ export default class ObjectVariantElementMenu extends Component {
 		return (
 			<ul className="list-inline" style={ this.inlineStyleToObject(this.deepGetParam('style')) }>
 				{
-					links.map(v => {
+					links.map((v, i) => {
 						return (
-							<li>
+							<li key={ i }>
 								<a href={ v.link }>{ v.name }</a>
 							</li>
 						)
