@@ -87,7 +87,10 @@ export default class ObjectVariantFrameBase extends Component {
 			component_params = component_params.delete('componentUrl');
 
 			let url = this.deepGetParam('componentUrl');
-			url = url + (/\?/.test(url) ? '&' : '?') + queryString.stringify(component_params.toObject());
+			url = url + (/\?/.test(url) ? '&' : '?') + queryString.stringify({
+				name: this.getClassName(),
+				params: JSON.stringify(component_params.toObject())
+			});
 
 			return (
 				<div dangerouslySetInnerHTML={ this.renderUnsaveHTML(url) }></div>

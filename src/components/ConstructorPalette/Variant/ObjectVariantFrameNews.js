@@ -8,7 +8,7 @@ export default class ObjectVariantFrameNews extends Component {
 			'componentUrl': {
 				'type': 'private',
 				'name': 'Адрес компонента',
-				'value': 'http://localhost:3000/componentNews.html'
+				'value': 'http://retava.ru/shopsite/test/widget'
 			},
 			'componentCountNews': {
 				'name': 'Количество новостей',
