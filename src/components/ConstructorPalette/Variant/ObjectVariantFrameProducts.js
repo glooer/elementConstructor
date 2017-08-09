@@ -8,7 +8,7 @@ export default class ObjectVariantFrameProducts extends Component {
 			'componentUrl': {
 				'type': 'private',
 				'name': 'Адрес компонента',
-				'value': 'http://localhost:3000/componentProducts.html'
+				'value': 'http://retava.ru/shopsite/test/widget'
 			},
 			'componentCountNews': {
 				'name': 'Количество товаров',

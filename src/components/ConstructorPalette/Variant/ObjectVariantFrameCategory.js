@@ -7,7 +7,7 @@ export default class ObjectVariantFrameCategory extends Component {
 		return {
 			'componentUrl': {
 				'name': 'Адрес компонента',
-				'value': 'http://localhost:3000/componentCategory.html'
+				'value': 'http://retava.ru/shopsite/test/widget'
 			},
 			'componentCountNews': {
 				'name': 'Количество новостей',
