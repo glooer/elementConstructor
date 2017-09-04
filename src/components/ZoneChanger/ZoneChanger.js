@@ -53,23 +53,25 @@ export default class ZoneChanger extends Component {
 	}
 
 	render() {
-		console.log();
+
 		return (
 			<div className="col-lg-12 screen-resolutions__container">
-				<div className="btn-group">
-					<button title="Очистить рабочую область" className="btn btn-danger" onClick={ () => {
-						if (window.confirm('Вы точно хотите очистить?')) {
-							this.zoneClear()
-						}
-					} }><span className="glyphicon glyphicon-fire" aria-hidden="true"></span></button>
-					<button title="Спрятать сетку" className={ "btn btn-default" + (this.state.isPreviewStack ? ' active' : '') } onClick={ () => {
-						this.hideTable();
-					} }><span className="glyphicon glyphicon-th" aria-hidden="true"></span></button>
-					<button title="Перейти в режим предпросмотра" className={ "btn btn-default" + (this.state.isPreview ? ' active' : '') } onClick={ () => {
-						this.hideRedactor()
-					} }><span className="glyphicon glyphicon-sunglasses" aria-hidden="true"></span></button>
-					<ModalStyle onChangeStyle={ this.hideRedactor } data-style={ this.props.dataStyles.data }/>
+				<div className="form-group">
+					<div className="btn-group">
+						<button title="Очистить рабочую область" className="btn btn-danger" onClick={ () => {
+							if (window.confirm('Вы точно хотите очистить?')) {
+								this.zoneClear()
+							}
+						} }><span className="glyphicon glyphicon-fire" aria-hidden="true"></span></button>
+						<button title="Спрятать сетку" className={ "btn btn-default" + (this.state.isPreviewStack ? ' active' : '') } onClick={ () => {
+							this.hideTable();
+						} }><span className="glyphicon glyphicon-th" aria-hidden="true"></span></button>
+						<button title="Перейти в режим предпросмотра" className={ "btn btn-default" + (this.state.isPreview ? ' active' : '') } onClick={ () => {
+							this.hideRedactor()
+						} }><span className="glyphicon glyphicon-sunglasses" aria-hidden="true"></span></button>
+					</div>
 				</div>
+				<ModalStyle onChangeStyle={ this.props.dataStyles.onChange } data-style={ this.props.dataStyles.data }/>
 
 			</div>
 		)

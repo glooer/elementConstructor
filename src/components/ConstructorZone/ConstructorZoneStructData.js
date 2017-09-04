@@ -240,7 +240,7 @@ export default class ConstructorZoneStructData {
 		      ]
 		    ]
 		  },
-		  "styles":"body {\n  background: #fafafa\n}\n\n.fdsaasdf  a {\n  color: black;\n}",
+		  "styles":"",
 		  "scripts":""
 		}
 	}

@@ -92,10 +92,15 @@ export default class ConstructorProperty extends Component {
 	}
 
 	deleteElement() {
+		if (!this.state.currentElementId) {
+			return;
+		}
+
+		
+		this.props.onDeleteElementProps(this.state.currentElementId);
 		this.setState({
 			currentElementId: null
 		})
-		this.props.onDeleteElementProps(this.state.currentElementId);
 	}
 
 	getInputElement(args) {

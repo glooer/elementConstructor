@@ -8,6 +8,7 @@ import ConstructorZone 				from './components/ConstructorZone/ConstructorZone'
 import ConstructorProperty 		from './components/ConstructorProperty/ConstructorProperty'
 import ScreenResolutions 			from './components/ScreenResolutions/ScreenResolutions'
 import ZoneChanger 						from './components/ZoneChanger/ZoneChanger'
+import EmptyBlock 						from './components/EmptyBlock/EmptyBlock'
 
 
 class App extends Component {
@@ -25,6 +26,9 @@ class App extends Component {
 						return target !== this.state.dragula.container[0]
 					},
 				}
+			},
+			data: {
+				styles: 'hi!'
 			}
 		}
 
@@ -75,16 +79,29 @@ class App extends Component {
 		this.refs.constructorZoneContainer.clearZone()
 	}
 
-	getCurrentStyles() {
-		// console.log(this.refs);
-		// return "123";
-		return this.refs.constructorZoneContainer
-	}
-
 	onChangeStyle(...args) {
 		this.refs.constructorZoneContainer.onChangeStyle(args)
 	}
 
+	getStyle() {
+		return this.refs.constructorZoneContainer.getStyles();
+	}
+
+	onKeyPress(e) {
+		if (["TEXTAREA", 'INPUT'].includes(e.target.nodeName)) {
+			return;
+		}
+
+		if (e.code === "Delete") {
+			this.refs.constructorPropertyContainer.deleteElement()
+		}
+
+
+	}
+
+	componentWillMount() {
+		document.addEventListener('keydown', this.onKeyPress.bind(this))
+	}
 
 
   render() {
@@ -100,10 +117,11 @@ class App extends Component {
 									onChangePreviewStack={ this.onChangePreviewStack }
 									onZoneCleared={ this.onZoneCleared }
 									dataStyles={ {
-										data: this.getCurrentStyles,
-										onChange: this.onChangeStyle
+										data: this.getStyle.bind(this),
+										onChange: this.onChangeStyle.bind(this)
 									} }
 								/>
+								<EmptyBlock className="js-site-control-buttons__container" id="js-site-control-buttons__container" />
 								<ConstructorPalette dragula={ this.dragulaDecorator } />
 							</div>
 						</div>

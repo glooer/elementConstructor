@@ -260,6 +260,8 @@ export default class ConstructorZoneStruct {
 
 	clearState() {
 		this.state.data = ZoneData.data;
+		this.state.styles = "";
+		this.state.scripts = "";
 	}
 
 	getStruct() {

@@ -27,6 +27,10 @@ export default class ConstructorZone extends Component {
 
 	}
 
+	getStyles() {
+		return this.state.styles;
+	}
+
 	forceUpdateZone() {
 		this.setState(prevState => {
 			prevState.zone = this.zoneStruct.getStruct();
@@ -109,12 +113,14 @@ export default class ConstructorZone extends Component {
 	}
 
 	variantElementRender(component, i = null) {
-		return this.variantElementFactory(component, i) ;
+		return this.variantElementFactory(component, i);
 	}
 
 	clearZone() {
 		this.zoneStruct.clearState();
+
 		this.forceUpdateZone();
+		console.log(this.state);
 	}
 
 	setStateToPropertyObject(id) {
@@ -236,14 +242,16 @@ export default class ConstructorZone extends Component {
 				<div className="clearfix">
 					{ this.variantElementContainerRender(this.getCurrentState()) }
 				</div>
+				{ /*
 				<div style={ { marginTop: '1rem' } }>
-
 					<div className="form-group">
 						<div className="btn-group">
-							<ModalStyle onChangeStyle={ this.onChangeStyle.bind(this) } data-style={ this.getCurrentStyles() }/>
+							 <ModalStyle onChangeStyle={ this.onChangeStyle.bind(this) } data-style={ this.getCurrentStyles() }/>
 						</div>
 					</div>
 				</div>
+				*/
+				}
 
 			</div>
 

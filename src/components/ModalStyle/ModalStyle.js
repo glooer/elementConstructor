@@ -50,7 +50,7 @@ export default class ModalStyle extends Component {
 		})
 	}
 
-	componentWillReceiveProps() {
+	componentWillReceiveProps(nextProps) {
 		this.setState(prevState => {
 			prevState.data = this.props['data-style']
 			return prevState;
@@ -63,12 +63,17 @@ export default class ModalStyle extends Component {
 	}
 
 	render() {
+		let data = this.state.data;
+		if ((typeof data) === "function") {
+			data = data();
+		}
+
 		return (
 			<div>
 				<button className="btn btn-default" onClick={ this.toggleModal }>общие стили</button>
 				<Modal isOpen={ this.state.isOpen } onRequestHide={ this.hideModal }>
 					<ModalHeader>
-						<ModalClose onClick={ this.hideModal }/>
+						<ModalClose onClick={ this.hideModal } />
 						<ModalTitle>Редактирование стилей</ModalTitle>
 					</ModalHeader>
 					<ModalBody>
@@ -77,7 +82,7 @@ export default class ModalStyle extends Component {
 								height: '10rem',
 								maxWidth: '100%'
 							}
-						} value={ this.state.data } onChange={ this.onChangeHandler } />
+						} value={ data } onChange={ this.onChangeHandler } />
 					</ModalBody>
 					<ModalFooter>
 						<button className='btn btn-default' onClick={ this.hideModal }>
